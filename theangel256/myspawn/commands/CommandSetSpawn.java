@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package theangel256.myspawn.commands;
 
 import org.bukkit.Bukkit;
@@ -15,16 +11,15 @@ import org.bukkit.command.CommandExecutor;
 
 public class CommandSetSpawn implements CommandExecutor
 {
-    private MySpawn plugin;
+    private final MySpawn plugin;
     
     public CommandSetSpawn(final MySpawn plugin) {
         this.plugin = plugin;
     }
     
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
-        if (sender instanceof Player) {
-            final Player p = (Player)sender;
-            final LocationManager spawnCoords1 = LocationManager.getManager();
+        if (sender instanceof Player p) {
+            LocationManager spawnCoords1 = LocationManager.getManager();
             spawnCoords1.getConfig().set("Spawn.world", (Object)p.getLocation().getWorld().getName());
             spawnCoords1.getConfig().set("Spawn.x", (Object)p.getLocation().getX());
             spawnCoords1.getConfig().set("Spawn.y", (Object)p.getLocation().getY());

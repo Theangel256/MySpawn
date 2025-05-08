@@ -1,9 +1,7 @@
-
 package theangel256.myspawn;
 
 import java.io.File;
 import org.bukkit.plugin.PluginManager;
-import theangel256.myspawn.events.SoundsListener;
 import theangel256.myspawn.events.Playervoid;
 import theangel256.myspawn.events.Quit;
 import org.bukkit.plugin.Plugin;
@@ -79,7 +77,6 @@ public class MySpawn extends JavaPlugin implements Listener
         pm.registerEvents((Listener)new Join(this), (Plugin)this);
         pm.registerEvents((Listener)new Quit(this), (Plugin)this);
         pm.registerEvents((Listener)new Playervoid(this), (Plugin)this);
-        pm.registerEvents((Listener)new SoundsListener(this), (Plugin)this);
     }
     
     public void RegistrarConfig() {

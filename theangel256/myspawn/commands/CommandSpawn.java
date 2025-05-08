@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package theangel256.myspawn.commands;
 
 import java.util.List;
@@ -29,7 +25,7 @@ import org.bukkit.command.CommandExecutor;
 
 public class CommandSpawn implements CommandExecutor
 {
-    private MySpawn plugin;
+    private final MySpawn plugin;
     private final CooldownManager cooldownManager;
     
     public CommandSpawn(final MySpawn plugin) {
@@ -59,7 +55,7 @@ public class CommandSpawn implements CommandExecutor
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', tpSpawn));
                         final String fireworkjoin = "Fireworks.Spawn";
                         if (config.getBoolean(fireworkjoin)) {
-                            final Firework firework = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+                            final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
                             final FireworkMeta meta = firework.getFireworkMeta();
                             meta.setPower(0);
                             final List<Color> colores = new ArrayList<Color>();
@@ -89,7 +85,6 @@ public class CommandSpawn implements CommandExecutor
                                     }
                                     return false;
                                 }
-                                break Label_0592;
                             }
                         }
                         this.cooldownManager.setCooldown(p.getUniqueId(), (double)System.currentTimeMillis());

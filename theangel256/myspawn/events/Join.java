@@ -10,7 +10,7 @@ import java.util.List;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import theangel256.myspawn.util.SoundHandler;
 import theangel256.myspawn.util.UpdateChecker;
 import org.bukkit.Sound;
 import org.bukkit.FireworkEffect;
@@ -36,8 +36,8 @@ public class Join implements Listener
     
     @EventHandler
     public void OnJoin(final PlayerJoinEvent event) {
-        final FileConfiguration config = this.plugin.getConfig();
-        final Player p = event.getPlayer();
+        FileConfiguration config = this.plugin.getConfig();
+        Player p = event.getPlayer();
         if (p.hasPlayedBefore()) {
             if (config.getBoolean("Options.Teleport-to-join")) {
                 final LocationManager spawnCoords = LocationManager.getManager();
@@ -73,6 +73,9 @@ public class Join implements Listener
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', texto).replace("{player}", event.getPlayer().getName()));
             }
         }
+        if (config.getBoolean("Sounds.Admin-join") && (p.isOp() || p.hasPermission(config.getString("Permissions.Admin-join")))) {
+            SoundHandler.playSoundToPlayer(config, "Sounds.Admin-join", p, plugin.nombre, plugin.lang);
+        }
         if (p.hasPlayedBefore()) {
             final String joinText = MySpawn.getMessages().getString("Messages.Player-join");
             event.setJoinMessage((String)null);
@@ -80,7 +83,7 @@ public class Join implements Listener
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', joinText).replace("{player}", event.getPlayer().getName()));
             }
             if (config.getBoolean("Fireworks.Join")) {
-                final Firework firework = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+                final Firework firework = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
                 final FireworkMeta meta = firework.getFireworkMeta();
                 meta.setPower(0);
                 final List<Color> colores = new ArrayList<Color>();
@@ -90,22 +93,7 @@ public class Join implements Listener
                 firework.setFireworkMeta(meta);
             }
             if (config.getBoolean("Sounds.Join")) {
-                final String SoundJoin = config.getString("Sounds.Join-Sound");
-                final String[] separados = SoundJoin.split(";");
-                try {
-                    final int volumen = Integer.valueOf(separados[1]);
-                    final float pitch2 = Float.valueOf(separados[2]);
-                    final Sound sound = Sound.valueOf(separados[0]);
-                    p.playSound(p.getLocation(), sound, (float)volumen, pitch2);
-                }
-                catch (IllegalArgumentException e) {
-                    if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
-                        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', String.valueOf(this.plugin.nombre) + " &cERROR: El Sonido &e" + separados[0] + " &cEs Invalido"));
-                    }
-                    else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
-                        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', String.valueOf(this.plugin.nombre) + " &cERROR: The Sound &e" + separados[0] + " &cIs Invalid"));
-                    }
-                }
+                SoundHandler.playSoundToPlayer(config, "Sounds.Join", p, plugin.nombre, plugin.lang);
             }
         }
         else {
@@ -115,7 +103,7 @@ public class Join implements Listener
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', joinFirstText).replace("{player}", event.getPlayer().getName()));
             }
             if (config.getBoolean("Fireworks.First-join")) {
-                final Firework firework2 = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+                final Firework firework2 = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
                 final FireworkMeta meta2 = firework2.getFireworkMeta();
                 meta2.setPower(0);
                 final List<Color> colores2 = new ArrayList<Color>();

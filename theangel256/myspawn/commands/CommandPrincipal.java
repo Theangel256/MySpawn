@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package theangel256.myspawn.commands;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 
 public class CommandPrincipal implements CommandExecutor
 {
-    private MySpawn plugin;
+    private final MySpawn plugin;
     
     public CommandPrincipal(final MySpawn plugin) {
         this.plugin = plugin;

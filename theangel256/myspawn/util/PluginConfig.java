@@ -117,7 +117,7 @@ public class PluginConfig
     }
     
     public List<String> getStringList(final String path) {
-        final List<String> lore = (List<String>)Lists.newArrayList();
+        final List<String> lore = Lists.newArrayList();
         for (final String args : this.config.getStringList(path)) {
             lore.add(ChatColor.translateAlternateColorCodes('&', args));
         }

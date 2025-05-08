@@ -16,11 +16,11 @@ import java.net.URL;
 
 public class UpdateChecker
 {
-    private int project;
-    private URL checkURL;
+    private final int project;
     private String newVersion;
-    private JavaPlugin plugin;
-    
+    private final JavaPlugin plugin;
+    private URL checkURL;
+
     public UpdateChecker(final JavaPlugin plugin, final int projectID) {
         this.plugin = plugin;
         this.project = projectID;

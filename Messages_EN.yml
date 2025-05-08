@@ -1,0 +1,13 @@
+Messages:
+  Motd:
+    - '&m                                             '
+    - '&6&lWelcome to &c&lserver &a&l{player}'
+    - '&m                                             '
+  SpawnDefined: '&aspawn defined correctly'
+  UndefinedSpawn: '&cthere is no server spawn'
+  Spawn: '&ayou have been teleported'
+  Player-join: '&6%{player} joined the server!'
+  Player-quit: '&6%{player} left the server!'
+  First-join: '&dWelcome {player} to the server, give him the welcome'
+  Voidfall: '&c&lWARNING: &7Do not fall'
+  Cooldown: '&cYou must wait &e{time} &cto execute this command'
