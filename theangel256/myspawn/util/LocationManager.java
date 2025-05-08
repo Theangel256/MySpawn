@@ -4,14 +4,14 @@
 
 package theangel256.myspawn.util;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.InvalidConfigurationException;
-import java.io.IOException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import java.io.File;
-import java.util.logging.Level;
-
 import theangel256.myspawn.MySpawn;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public class LocationManager {
     private final MySpawn plugin;
@@ -45,9 +45,11 @@ public class LocationManager {
             plugin.getLogger().log(Level.SEVERE, "Error al cargar Spawn.yml", ex);
         }
     }
+
     public FileConfiguration getConfig() {
         return this.spawnCoords;
     }
+
     public void saveConfig() {
         if (this.spawnCoords == null || this.location == null) {
             plugin.getLogger().warning("No se puede guardar Spawn.yml: archivo o configuración no inicializados.");
@@ -60,6 +62,7 @@ public class LocationManager {
             plugin.getLogger().log(Level.SEVERE, "Detalles del error:", ex);
         }
     }
+
     public void reloadConfig() {
         if (this.location == null || !this.location.exists()) {
             plugin.getLogger().warning("No se puede recargar Spawn.yml: archivo no encontrado.");

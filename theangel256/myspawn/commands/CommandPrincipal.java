@@ -1,21 +1,20 @@
 package theangel256.myspawn.commands;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import theangel256.myspawn.util.LocationManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import theangel256.myspawn.MySpawn;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import theangel256.myspawn.MySpawn;
+import theangel256.myspawn.util.LocationManager;
 
-public class CommandPrincipal implements CommandExecutor
-{
+public class CommandPrincipal implements CommandExecutor {
     private final MySpawn plugin;
-    
+
     public CommandPrincipal(final MySpawn plugin) {
         this.plugin = plugin;
     }
-    
+
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
         final FileConfiguration config = this.plugin.getConfig();
         final String reload = config.getString("Permissions.Reload");
@@ -34,8 +33,7 @@ public class CommandPrincipal implements CommandExecutor
                 sender.sendMessage(ChatColor.YELLOW + "/spawn" + ChatColor.GRAY + " Te teletransporta al spawn");
                 sender.sendMessage("");
                 sender.sendMessage(ChatColor.RED + "<----------------------->");
-            }
-            else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                 sender.sendMessage(new StringBuilder().append(ChatColor.YELLOW).append(ChatColor.BOLD).append("        MySpawn").toString());
                 sender.sendMessage(ChatColor.RED + "<----------------------->");
                 sender.sendMessage("");
@@ -59,8 +57,7 @@ public class CommandPrincipal implements CommandExecutor
                 sender.sendMessage(ChatColor.YELLOW + "/spawn" + ChatColor.GRAY + " Te teletransporta al spawn");
                 sender.sendMessage("");
                 sender.sendMessage(ChatColor.RED + "<----------------------->");
-            }
-            else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                 sender.sendMessage(new StringBuilder().append(ChatColor.YELLOW).append(ChatColor.BOLD).append("        MySpawn").toString());
                 sender.sendMessage(ChatColor.RED + "<----------------------->");
                 sender.sendMessage("");
@@ -77,8 +74,7 @@ public class CommandPrincipal implements CommandExecutor
             if (!sender.hasPermission(reload)) {
                 if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                     sender.sendMessage(rlES);
-                }
-                else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+                } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                     sender.sendMessage(rlEN);
                 }
                 return true;
@@ -88,18 +84,15 @@ public class CommandPrincipal implements CommandExecutor
             this.plugin.reloadConfig();
             if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                 sender.sendMessage(sucessES);
-            }
-            else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                 sender.sendMessage(sucessEN);
             }
             return true;
-        }
-        else {
+        } else {
             if (!args[0].equalsIgnoreCase("rl")) {
                 if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                     sender.sendMessage(String.valueOf(this.plugin.nombre) + ChatColor.RED + " Opcion incorrecta!");
-                }
-                else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+                } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                     sender.sendMessage(String.valueOf(this.plugin.nombre) + ChatColor.RED + " Wrong choice!");
                 }
                 return false;
@@ -107,8 +100,7 @@ public class CommandPrincipal implements CommandExecutor
             if (!sender.hasPermission(reload)) {
                 if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                     sender.sendMessage(rlES);
-                }
-                else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+                } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                     sender.sendMessage(rlEN);
                 }
                 return true;
@@ -118,8 +110,7 @@ public class CommandPrincipal implements CommandExecutor
             this.plugin.reloadConfig();
             if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                 sender.sendMessage(sucessES);
-            }
-            else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
                 sender.sendMessage(sucessEN);
             }
             return true;

@@ -1,10 +1,11 @@
 package theangel256.myspawn.util;
 
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import theangel256.myspawn.MySpawn;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class CraftCooldownManager implements CooldownManager {
     private final Map<UUID, Double> cooldowns;

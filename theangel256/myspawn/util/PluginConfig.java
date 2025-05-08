@@ -4,25 +4,24 @@
 
 package theangel256.myspawn.util;
 
-import java.util.Iterator;
 import com.google.common.collect.Lists;
-import java.util.List;
-import org.bukkit.ChatColor;
-import java.io.OutputStream;
-import java.io.InputStream;
-import org.bukkit.configuration.file.YamlConfiguration;
 import com.google.common.io.ByteStreams;
-import java.io.FileOutputStream;
-import theangel256.myspawn.MySpawn;
-import java.io.File;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import theangel256.myspawn.MySpawn;
 
-public class PluginConfig
-{
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
+public class PluginConfig {
     private FileConfiguration config;
     private File file;
     private MySpawn main;
-    
+
     public PluginConfig(final MySpawn main, final String resourceName) {
         this.main = main;
         this.file = new File(this.main.getDataFolder(), String.valueOf(String.valueOf(resourceName)) + ".yml");
@@ -41,9 +40,8 @@ public class PluginConfig
                         final OutputStream out = new FileOutputStream(resourceFile);
                         try {
                             ByteStreams.copy(in, out);
-                            this.config = (FileConfiguration)YamlConfiguration.loadConfiguration(this.file);
-                        }
-                        finally {
+                            this.config = (FileConfiguration) YamlConfiguration.loadConfiguration(this.file);
+                        } finally {
                             if (out != null) {
                                 out.close();
                             }
@@ -55,12 +53,10 @@ public class PluginConfig
                             in.close();
                         }
                         return;
-                    }
-                    finally {
+                    } finally {
                         if (t == null) {
                             final Throwable t2 = t = null;
-                        }
-                        else {
+                        } else {
                             final Throwable t2 = null;
                             if (t != t2) {
                                 t.addSuppressed(t2);
@@ -70,12 +66,10 @@ public class PluginConfig
                             in.close();
                         }
                     }
-                }
-                finally {
+                } finally {
                     if (t == null) {
                         final Throwable t3 = t = null;
-                    }
-                    else {
+                    } else {
                         final Throwable t3 = null;
                         if (t != t3) {
                             t.addSuppressed(t3);
@@ -83,39 +77,38 @@ public class PluginConfig
                     }
                 }
             }
-            this.config = (FileConfiguration)YamlConfiguration.loadConfiguration(this.file);
-        }
-        catch (Exception e) {
+            this.config = (FileConfiguration) YamlConfiguration.loadConfiguration(this.file);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void setDefault(final String path, final String value) {
         if (!this.config.contains(path)) {
-            this.config.set(path, (Object)value);
+            this.config.set(path, (Object) value);
             this.save();
         }
     }
-    
+
     public void save() {
         try {
             this.config.save(this.file);
+        } catch (Exception ex) {
         }
-        catch (Exception ex) {}
     }
-    
+
     public FileConfiguration getConfig() {
         return this.config;
     }
-    
+
     public File getFile() {
         return this.file;
     }
-    
+
     public String getString(final String path) {
         return ChatColor.translateAlternateColorCodes('&', this.config.getString(path));
     }
-    
+
     public List<String> getStringList(final String path) {
         final List<String> lore = Lists.newArrayList();
         for (final String args : this.config.getStringList(path)) {
@@ -123,7 +116,7 @@ public class PluginConfig
         }
         return lore;
     }
-    
+
     public int getInt(final String path) {
         return this.config.getInt(path);
     }

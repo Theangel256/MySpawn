@@ -1,10 +1,10 @@
 package theangel256.myspawn.util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
 
 public class SoundHandler {
 
