@@ -24,7 +24,7 @@ public class CommandPrincipal implements CommandExecutor {
                 sender.sendMessage(color("&e&l        MySpawn"));
                 sender.sendMessage(color("&c<----------------------->"));
                 sender.sendMessage("");
-                sender.sendMessage(color("&e/MySpawn help&7 Información sobre todos los comandos."));
+                sender.sendMessage(color("&e/MySpawn help&7 Informacion sobre todos los comandos."));
                 sender.sendMessage(color("&e/MySpawn reload&7 Recarga el complemento."));
                 sender.sendMessage(color("&e/setspawn&7 Establece el spawn de los usuarios."));
                 sender.sendMessage(color("&e/spawn&7 Te teletransporta al spawn"));
@@ -49,10 +49,11 @@ public class CommandPrincipal implements CommandExecutor {
                 sender.sendMessage(color("&e&l        MySpawn"));
                 sender.sendMessage(color("&c<----------------------->"));
                 sender.sendMessage("");
-                sender.sendMessage(color("&e/MySpawn help&7 Información sobre todos los comandos."));
+                sender.sendMessage(color("&e/MySpawn help&7 Informacion sobre todos los comandos."));
                 sender.sendMessage(color("&e/MySpawn reload&7 Recarga el complemento."));
-                sender.sendMessage(color("&e/setspawn&7 Establece el spawn de los usuarios."));
-                sender.sendMessage(color("&e/spawn&7 Te teletransporta al spawn"));
+                sender.sendMessage(color("&e/SetFirstSpawn &7 Establece el spawn inicial de los usuarios."));
+                sender.sendMessage(color("&e/SetSpawn&7 Establece el spawn de los usuarios."));
+                sender.sendMessage(color("&e/Spawn&7 Te teletransporta al spawn"));
                 sender.sendMessage("");
                 sender.sendMessage(color("&c<----------------------->"));
             } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
@@ -61,8 +62,9 @@ public class CommandPrincipal implements CommandExecutor {
                 sender.sendMessage("");
                 sender.sendMessage(color("&e/MySpawn help&7 Information about all the commands."));
                 sender.sendMessage(color("&e/MySpawn reload&7 Reload the plugin."));
-                sender.sendMessage(color("&e/setspawn&7 Define the spawn of users."));
-                sender.sendMessage(color("&e/spawn&7 Teleport to spawn."));
+                sender.sendMessage(color("&e/SetFirstSpawn &7 Set the initial spawn of users."));
+                sender.sendMessage(color("&e/SetSpawn &7 Define the spawn of users."));
+                sender.sendMessage(color("&e/Spawn &7 Teleport to spawn."));
                 sender.sendMessage("");
                 sender.sendMessage(color("&c<----------------------->"));
             }
@@ -84,11 +86,12 @@ public class CommandPrincipal implements CommandExecutor {
                     : "&2 The plugin has been correctly reloaded";
             sender.sendMessage(color(this.plugin.nombre + " " + sucessmsg));
             return true;
-        } else  {
-                sender.sendMessage(color(String.valueOf(this.plugin.nombre) + "&c Opcion incorrecta!"));
-                return true;
-            }
+        } else {
+            sender.sendMessage(color(this.plugin.nombre + "&c Opcion incorrecta!"));
+            return true;
         }
+    }
+
     private static String color(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }

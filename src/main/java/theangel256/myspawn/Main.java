@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import theangel256.myspawn.commands.CommandPrincipal;
+import theangel256.myspawn.commands.CommandSetFirstSpawn;
 import theangel256.myspawn.commands.CommandSetSpawn;
 import theangel256.myspawn.commands.CommandSpawn;
 import theangel256.myspawn.events.Join;
@@ -66,6 +67,7 @@ public class Main extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("MySpawn")).setExecutor(new CommandPrincipal(this));
         Objects.requireNonNull(this.getCommand("Spawn")).setExecutor(new CommandSpawn(this));
         Objects.requireNonNull(this.getCommand("SetSpawn")).setExecutor(new CommandSetSpawn(this));
+        Objects.requireNonNull(this.getCommand("SetFirstSpawn")).setExecutor(new CommandSetFirstSpawn(this));
     }
 
     public void RegistrarEventos() {

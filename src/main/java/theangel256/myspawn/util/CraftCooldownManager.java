@@ -2,7 +2,6 @@ package theangel256.myspawn.util;
 
 import theangel256.myspawn.Main;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -22,12 +21,12 @@ public class CraftCooldownManager implements CooldownManager {
     }
 
     @Override
-    public double getCooldown(@Nonnull final UUID playerUUID) {
+    public double getCooldown(final UUID playerUUID) {
         return this.cooldowns.getOrDefault(playerUUID, 0.0);
     }
 
     @Override
-    public void setCooldown(@Nonnull final UUID playerUUID, final double time) {
+    public void setCooldown(final UUID playerUUID, final double time) {
         if (time <= 0.0) {
             this.cooldowns.remove(playerUUID);
         } else {

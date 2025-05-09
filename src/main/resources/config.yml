@@ -2,7 +2,7 @@
 Update-check: true
 Options:
   #LANGUAGES: EN ES
-  Language: 'ES'
+  Language: 'EN'
   #Send a message when the player first joins
   First-join: true
   #Send a message when the player joins
@@ -36,17 +36,19 @@ Sounds:
   # You can check here the whole list of minecraft sounds.
   # 1.8.x - 1.12.x https://pastebin.com/W8ZnDx3V
   # 1.13.x - 1.14.x https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-  #How to use Sound;Volume(10);pitch(recommended leave it in 2)
+  #How to use Sound;Volume(1.0f);pitch(recommended leave it in 1.0f)
+  #Example: BLOCK_ANVIL_LAND;1.0f;1.0f (its sound a distance of 16 blocks, with the original tone)
+  #Example: BLOCK_ANVIL_LAND;0.5f;0.5f (its sound a distance of 8 blocks, with a Lower pitch, slower)
   Spawn: true
-  Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;3;2
+  Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;1.0f;1.0f
   Admin-join: true
-  Admin-join-Sound: BLOCK_ANVIL_LAND;10;2
+  Admin-join-Sound: BLOCK_ANVIL_LAND;1.0f;1.0f
   Join: true
-  Join-Sound: BLOCK_NOTE_BLOCK_PLING;10;2
+  Join-Sound: BLOCK_NOTE_BLOCK_PLING;1.0f;1.0f
   First-join: true
-  First-join-Sound: WITHER_SPAWN;3;2
+  First-join-Sound: WITHER_SPAWN;1.0f;1.0f
   Voidfall: true
-  Voidfall-Sound: ENTITY_GENERIC_EXPLODE;3;2
+  Voidfall-Sound: ENTITY_GENERIC_EXPLODE;1.0f;1.0f
 Fireworks:
   Join: true
   First-join: true
@@ -56,3 +58,4 @@ Permissions:
   Admin-join: 'myspawn.admin'
   Reload: 'myspawn.reload'
   Set-Spawn: 'myspawn.setspawn'
+  Set-FirstSpawn: 'myspawn.setfirstspawn'

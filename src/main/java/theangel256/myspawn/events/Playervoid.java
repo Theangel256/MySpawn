@@ -4,7 +4,10 @@
 
 package theangel256.myspawn.events;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,9 +27,9 @@ public class Playervoid implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void OnPlayerDamage(final PlayerMoveEvent e) {
-        final FileConfiguration config = this.plugin.getConfig();
+        final FileConfiguration config = plugin.getConfig();
         if (config.getBoolean("Options.VoidSpawn")) {
-            if (e.getTo().getBlockY() > this.plugin.getConfig().getInt("Options.Void-fall", -5)) {
+            if (e.getTo().getBlockY() > plugin.getConfig().getInt("Options.Void-fall", -5)) {
                 return;
             }
             final Player p = e.getPlayer();

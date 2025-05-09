@@ -13,6 +13,7 @@ import theangel256.myspawn.Main;
 import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.SoundHandler;
 import theangel256.myspawn.util.UpdateChecker;
+import theangel256.myspawn.util.VersionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Join implements Listener {
 
     @EventHandler
     public void OnJoin(final PlayerJoinEvent event) {
-        FileConfiguration config = this.plugin.getConfig();
+        FileConfiguration config = plugin.getConfig();
         Player p = event.getPlayer();
         boolean firstJoinSoundEnabled = config.getBoolean("Sounds.First-join");
         boolean joinSoundEnabled = config.getBoolean("Sounds.Join");
@@ -96,7 +97,7 @@ public class Join implements Listener {
         }
         final String updatePermission = config.getString("Permissions.Update-check");
         if (config.getBoolean("Update-check")) {
-            final UpdateChecker updater = new UpdateChecker(this.plugin, 64762);
+            final UpdateChecker updater = new UpdateChecker(plugin, 64762);
             if (p.isOp() || p.hasPermission(updatePermission)) {
                 try {
                     if (updater.checkForUpdates()) {
@@ -109,18 +110,18 @@ public class Join implements Listener {
                         }
                     }
                 } catch (Exception e) {
-                    if (plugin.lang.equalsIgnoreCase("messages_es")) {
-                        Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + "&c El plugin no se encuentra en la pagina de spigot"));
-                    } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
-                        Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + "&c The plugin is not found in the spigot page"));
-                    }
+                    String missingPageSpigot = plugin.lang.equalsIgnoreCase("messages_es")
+                            ? "&c El plugin no se encuentra en la pagina de spigot"
+                            : "&c The plugin is not found in the spigot page";
+                    Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + missingPageSpigot));
                 }
             }
         }
     }
 
     private static void launchFirework(Player p) {
-        Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
+        EntityType fireworkType = VersionUtils.isLegacy() ? EntityType.FIREWORK : EntityType.valueOf("FIREWORK_ROCKET");
+        final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), fireworkType);
         FireworkMeta meta = firework.getFireworkMeta();
         meta.setPower(0);
         List<Color> colors = new ArrayList<>();

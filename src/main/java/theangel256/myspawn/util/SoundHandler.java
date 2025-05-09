@@ -31,11 +31,11 @@ public class SoundHandler {
 
         try {
             Sound sound = Sound.valueOf(parts[0].toUpperCase());
-            float volume = Float.parseFloat(parts[1]);
-            float pitch = Float.parseFloat(parts[2]);
+            float volume = Math.max(0.0f, Math.min(Float.parseFloat(parts[1]), 10.0f)); // tope práctico
+            float pitch = Math.max(0.5f, Math.min(Float.parseFloat(parts[2]), 2.0f));     // tono seguro
 
-            if (volume <= 0) volume = 1;
-            if (pitch <= 0) pitch = 1;
+            if (volume <= 0) volume = 1.0f;
+            if (pitch <= 0) pitch = 1.0f;
             player.playSound(player.getLocation(), sound, volume, pitch);
         } catch (Exception e) {
             String InvalidSound = lang.equalsIgnoreCase("messages_es")

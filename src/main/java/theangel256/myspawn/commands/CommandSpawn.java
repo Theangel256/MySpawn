@@ -10,10 +10,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.CooldownManager;
-import theangel256.myspawn.util.CraftCooldownManager;
-import theangel256.myspawn.util.LocationManager;
-import theangel256.myspawn.util.SoundHandler;
+import theangel256.myspawn.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +44,9 @@ public class CommandSpawn implements CommandExecutor {
                     p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));
 
                     if (config.getBoolean("Fireworks.Spawn")) {
-                        final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
-                        final FireworkMeta meta = firework.getFireworkMeta();
+                        EntityType fireworkType = VersionUtils.isLegacy() ? EntityType.FIREWORK : EntityType.valueOf("FIREWORK_ROCKET");
+                        final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), fireworkType);
+                        FireworkMeta meta = firework.getFireworkMeta();
                         meta.setPower(0);
                         final List<Color> colores = new ArrayList<>();
                         colores.add(Color.ORANGE);
