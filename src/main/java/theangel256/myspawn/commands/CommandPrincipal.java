@@ -16,11 +16,11 @@ public class CommandPrincipal implements CommandExecutor {
     }
 
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
-        final FileConfiguration config = this.plugin.getConfig();
+        final FileConfiguration config = plugin.getConfig();
         final String reload = config.getString("Permissions.Reload");
 
         if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-            if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
+            if (plugin.lang.equalsIgnoreCase("messages_es")) {
                 sender.sendMessage(color("&e&l        MySpawn"));
                 sender.sendMessage(color("&c<----------------------->"));
                 sender.sendMessage("");
@@ -31,7 +31,7 @@ public class CommandPrincipal implements CommandExecutor {
                 sender.sendMessage(color("&e/Spawn&7 Te teletransporta al spawn"));
                 sender.sendMessage("");
                 sender.sendMessage(color("&c<----------------------->"));
-            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
+            } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
                 sender.sendMessage(color("&e&l        MySpawn"));
                 sender.sendMessage(color("&c<----------------------->"));
                 sender.sendMessage("");
@@ -45,24 +45,27 @@ public class CommandPrincipal implements CommandExecutor {
             }
             return true;
         }
-
+        if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v")) {
+            sender.sendMessage(color(plugin.nombre + "&a Version: &7" + plugin.version));
+            return true;
+        }
         if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
             if (!sender.hasPermission(reload)) {
-                String missingReloadPermissions = this.plugin.lang.equalsIgnoreCase("messages_es")
+                String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
                         ? "&c Necesitas el permiso &a" + reload + "&c para acceder al comando"
                         : "&c You need permission &a" + reload + "&c to access the command";
-                sender.sendMessage(color(this.plugin.nombre + " " + missingReloadPermissions));
+                sender.sendMessage(color(plugin.nombre + " " + missingReloadPermissions));
                 return true;
             }
             LocationManager.getManager().reloadConfig();
-            this.plugin.reloadConfig();
-            String sucessmsg = this.plugin.lang.equalsIgnoreCase("messages_es")
+            plugin.reloadConfig();
+            String sucessmsg = plugin.lang.equalsIgnoreCase("messages_es")
                     ? "&2 El plugin ha sido recargado correctamente"
                     : "&2 The plugin has been correctly reloaded";
-            sender.sendMessage(color(this.plugin.nombre + " " + sucessmsg));
+            sender.sendMessage(color(plugin.nombre + " " + sucessmsg));
             return true;
         } else {
-            sender.sendMessage(color(this.plugin.nombre + "&c Opcion incorrecta!"));
+            sender.sendMessage(color(plugin.nombre + "&c Opcion incorrecta!"));
             return true;
         }
     }

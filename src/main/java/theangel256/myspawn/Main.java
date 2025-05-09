@@ -46,19 +46,22 @@ public class Main extends JavaPlugin implements Listener {
         LocationManager.getManager().reloadConfig();
         Main.Messages = new PluginConfig(this, "Messages_" + this.config.getString("Options.Language"));
         if (this.config.getBoolean("Update-check")) {
+            final UpdateChecker updater = new UpdateChecker(this, 64762);
             try {
-                final UpdateChecker updater = new UpdateChecker(this, 64762);
                 if (updater.checkForUpdates()) {
                     if (this.lang.equalsIgnoreCase("messages_es")) {
-                        Bukkit.getConsoleSender().sendMessage(String.valueOf(this.nombre) + ChatColor.GREEN + " Nueva version disponible.");
-                        Bukkit.getConsoleSender().sendMessage(String.valueOf(this.nombre) + ChatColor.YELLOW + " Puedes descargarlo en: " + ChatColor.WHITE + "https://www.spigotmc.org/resources/64762");
+                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.GREEN + " Nueva version disponible.");
+                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.YELLOW + " Puedes descargarlo en: &fhttps://www.spigotmc.org/resources/64762");
                     } else if (this.lang.equalsIgnoreCase("messages_en")) {
-                        Bukkit.getConsoleSender().sendMessage(String.valueOf(this.nombre) + ChatColor.GREEN + " New version available.");
-                        Bukkit.getConsoleSender().sendMessage(String.valueOf(this.nombre) + ChatColor.YELLOW + " You can download it in: " + ChatColor.WHITE + "https://www.spigotmc.org/resources/64762");
+                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.GREEN + " New version available.");
+                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.YELLOW + " You can download it in: &fhttps://www.spigotmc.org/resources/64762");
                     }
                 }
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage(String.valueOf(this.nombre) + ChatColor.RED + " The plugin is not found in the spigot page");
+                String missingPageSpigot = this.lang.equalsIgnoreCase("messages_es")
+                        ? ChatColor.RED + " El plugin no se encuentra en la pagina de spigot"
+                        : ChatColor.RED + " The plugin is not found in the spigot page";
+                Bukkit.getConsoleSender().sendMessage(this.nombre + missingPageSpigot);
             }
         }
     }
