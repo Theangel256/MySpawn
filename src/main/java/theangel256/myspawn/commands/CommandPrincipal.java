@@ -19,32 +19,7 @@ public class CommandPrincipal implements CommandExecutor {
         final FileConfiguration config = this.plugin.getConfig();
         final String reload = config.getString("Permissions.Reload");
 
-        if (args.length <= 0) {
-            if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
-                sender.sendMessage(color("&e&l        MySpawn"));
-                sender.sendMessage(color("&c<----------------------->"));
-                sender.sendMessage("");
-                sender.sendMessage(color("&e/MySpawn help&7 Informacion sobre todos los comandos."));
-                sender.sendMessage(color("&e/MySpawn reload&7 Recarga el complemento."));
-                sender.sendMessage(color("&e/setspawn&7 Establece el spawn de los usuarios."));
-                sender.sendMessage(color("&e/spawn&7 Te teletransporta al spawn"));
-                sender.sendMessage("");
-                sender.sendMessage(color("&c<----------------------->"));
-            } else if (this.plugin.lang.equalsIgnoreCase("messages_en")) {
-                sender.sendMessage(color("&e&l        MySpawn"));
-                sender.sendMessage(color("&c<----------------------->"));
-                sender.sendMessage("");
-                sender.sendMessage(color("&e/MySpawn help&7 Information about all the commands."));
-                sender.sendMessage(color("&e/MySpawn reload&7 Reload the plugin."));
-                sender.sendMessage(color("&e/setspawn&7 Define the spawn of users."));
-                sender.sendMessage(color("&e/spawn&7 Teleport to spawn."));
-                sender.sendMessage("");
-                sender.sendMessage(color("&c<----------------------->"));
-            }
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("help")) {
+        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
             if (this.plugin.lang.equalsIgnoreCase("messages_es")) {
                 sender.sendMessage(color("&e&l        MySpawn"));
                 sender.sendMessage(color("&c<----------------------->"));
