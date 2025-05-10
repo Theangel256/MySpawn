@@ -120,7 +120,16 @@ public class Join implements Listener {
     }
 
     private static void launchFirework(Player p) {
-        EntityType fireworkType = VersionUtils.isLegacy() ? EntityType.FIREWORK : EntityType.valueOf("FIREWORK_ROCKET");
+        EntityType fireworkType;
+        if (VersionUtils.isLegacy()) {
+            fireworkType = EntityType.FIREWORK;
+        } else {
+            try {
+                fireworkType = EntityType.valueOf("FIREWORK_ROCKET"); // Solo existe desde 1.13+
+            } catch (IllegalArgumentException e) {
+                fireworkType = EntityType.FIREWORK; // Fallback seguro
+            }
+        }
         final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), fireworkType);
         FireworkMeta meta = firework.getFireworkMeta();
         meta.setPower(0);

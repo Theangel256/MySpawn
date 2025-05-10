@@ -1,0 +1,18 @@
+name: MySpawn
+main: theangel256.myspawn.Main
+version: ${project.version}
+author: 'Theangel256'
+website: 'https://www.spigotmc.org/resources/64762/'
+commands:
+  MySpawn:
+    description: Comando Principal
+    usage: /myspawn
+  spawn:
+    description: Teletransporta al spawn
+    usage: /spawn
+  setspawn:
+    description: Establece el spawn
+    usage: /setspawn
+  setfirstspawn:
+    description: Establece el spawn inicial
+    usage: /setfirstspawn
