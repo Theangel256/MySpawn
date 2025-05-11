@@ -10,9 +10,9 @@ import static theangel256.myspawn.Main.color;
 public class SoundHandler {
 
     public static void playSoundToPlayer(FileConfiguration config, String path, Player player, String pluginName, String lang) {
-        if (!config.getBoolean(path)) return;
+        if (!config.getBoolean(path + ".Enabled")) return;
 
-        String fullPath = config.getString(path + "-Sound");
+        String fullPath = config.getString(path + ".Sound");
         if (fullPath == null || !fullPath.contains(";")) {
             String InvalidConfig = lang.equalsIgnoreCase("messages_es")
                     ? "&cERROR: Config invalida para " + path
@@ -30,10 +30,10 @@ public class SoundHandler {
         }
 
         try {
-            String soundName = VersionUtils.isLegacy()
-                    ? VersionUtils.suggestLegacySound(parts[0]) != null ? VersionUtils.suggestLegacySound(parts[0]) : parts[0]
-                    : parts[0];
-            Sound sound = Sound.valueOf(soundName.toUpperCase());
+            String baseSound = parts[0].toUpperCase();
+            String legacySound = VersionUtils.suggestLegacySound(baseSound);
+            String soundName = VersionUtils.isLegacy() && legacySound != null ? legacySound : baseSound;
+            Sound sound = Sound.valueOf(soundName);
             float volume = Math.max(0.0f, Math.min((Float.parseFloat(parts[1]) - 1) / 9.0f, 1.0f)); // Mapping 1-10 -> 0.0-1.0
             float pitch = Math.max(0.5f, Math.min(0.5f + (Float.parseFloat(parts[2]) - 1) * 0.15f, 2.0f)); // Mapping 1-10 -> 0.5-2.0
 

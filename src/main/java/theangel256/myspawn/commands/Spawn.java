@@ -37,7 +37,7 @@ public class Spawn implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
             return true;
         }
-            boolean isCooldownEnabled = config.getBoolean("Options.Cooldown", true);
+            boolean isCooldownEnabled = config.getBoolean("Spawn-Teleport.Cooldown-Time", true);
             double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
             double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
             boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
@@ -59,10 +59,13 @@ public class Spawn implements CommandExecutor {
                 final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
                 final Location loc = new Location(w, x, y, z, yaw, pitch);
                 p.teleport(loc);
+                if (config.getBoolean("Spawn-Teleport.No-Damage")) {
+                    p.setFallDistance(0F);
+                }
                 if (config.getBoolean("Fireworks.Spawn.Enabled")) {
                     launchFirework(config, "Fireworks.Spawn", p, plugin.nombre, plugin.lang);
                 }
-                if (config.getBoolean("Sounds.Spawn")) {
+                if (config.getBoolean("Sounds.Spawn.Enabled")) {
                     SoundHandler.playSoundToPlayer(config, "Sounds.Spawn", p, plugin.nombre, plugin.lang);
                 }
                 p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));

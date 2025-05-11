@@ -29,9 +29,9 @@ public class Join implements Listener {
     public void OnJoin(final PlayerJoinEvent event) {
         FileConfiguration config = plugin.getConfig();
         Player p = event.getPlayer();
-        boolean firstJoinSoundEnabled = config.getBoolean("Sounds.First-join");
-        boolean joinSoundEnabled = config.getBoolean("Sounds.Join");
-        boolean adminJoinSoundEnabled = config.getBoolean("Sounds.Admin-join");
+        boolean firstJoinSoundEnabled = config.getBoolean("Sounds.First-Join.Enabled");
+        boolean joinSoundEnabled = config.getBoolean("Sounds.Join.Enabled");
+        boolean adminJoinSoundEnabled = config.getBoolean("Sounds.Admin-Join.Enabled");
         boolean isAdmin = p.isOp() || p.hasPermission(config.getString("Permissions.Admin-join"));
         final List<String> motdText = Main.getMessages().getStringList("Messages.Motd");
 
@@ -41,10 +41,10 @@ public class Join implements Listener {
             }
         }
         if (adminJoinSoundEnabled && isAdmin) {
-            SoundHandler.playSoundToPlayer(config, "Sounds.Admin-join", p, plugin.nombre, plugin.lang);
+            SoundHandler.playSoundToPlayer(config, "Sounds.Admin-Join", p, plugin.nombre, plugin.lang);
         }
         if (p.hasPlayedBefore()) {
-            if(config.getBoolean("Options.Teleport-to-join")) {
+            if (config.getBoolean("Options.Teleport-to-join")) {
                 final LocationManager spawnCoords = LocationManager.getManager();
                 if (spawnCoords.getConfig().contains("Spawn.x")) {
                     final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
@@ -71,12 +71,6 @@ public class Join implements Listener {
 
         } else {
             if (config.getBoolean("Options.Teleport-to-firstjoin")) {
-                if (config.getString("Options.Worlds-option").equals("whitelist") && (config.getStringList("Options.Worlds") != null) && (!config.getStringList("Options.Worlds").contains(p.getWorld().getName()))) {
-                    return;
-                }
-                if (config.getString("Options.Worlds-option").equals("blacklist") && (config.getStringList("Options.Worlds") != null) && (config.getStringList("Options.Worlds").contains(p.getWorld().getName()))) {
-                    return;
-                }
                 final LocationManager spawnCoords = LocationManager.getManager();
                 if (spawnCoords.getConfig().contains("FirstSpawn.x")) {
                     final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("FirstSpawn.world"));
@@ -98,7 +92,7 @@ public class Join implements Listener {
                 launchFirework(config, "Fireworks.First-join", p, plugin.nombre, plugin.lang);
             }
             if (firstJoinSoundEnabled) {
-                SoundHandler.playSoundToPlayer(config, "Sounds.First-join", p, plugin.nombre, plugin.lang);
+                SoundHandler.playSoundToPlayer(config, "Sounds.First-Join", p, plugin.nombre, plugin.lang);
             }
         }
         final String updatePermission = config.getString("Permissions.Update-check");

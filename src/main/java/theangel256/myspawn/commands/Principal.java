@@ -27,8 +27,10 @@ public class Principal implements CommandExecutor {
                 sender.sendMessage("");
                 sender.sendMessage(color("&e/MySpawn help&7 Informacion sobre todos los comandos."));
                 sender.sendMessage(color("&e/MySpawn reload&7 Recarga el complemento."));
+                sender.sendMessage(color("&e/MySpawn version&7 Checa la version del complemento."));
                 sender.sendMessage(color("&e/SetFirstSpawn &7 Establece el spawn inicial de los usuarios."));
                 sender.sendMessage(color("&e/SetSpawn&7 Establece el spawn de los usuarios."));
+                sender.sendMessage(color("&e/SetFirework &7 Modifica el como se verán los fuegos artificales."));
                 sender.sendMessage(color("&e/Spawn&7 Te teletransporta al spawn"));
                 sender.sendMessage("");
                 sender.sendMessage(color("&c<----------------------->"));
@@ -38,8 +40,10 @@ public class Principal implements CommandExecutor {
                 sender.sendMessage("");
                 sender.sendMessage(color("&e/MySpawn help&7 Information about all the commands."));
                 sender.sendMessage(color("&e/MySpawn reload&7 Reload the plugin."));
+                sender.sendMessage(color("&e/MySpawn version&7 Checks version plugin."));
                 sender.sendMessage(color("&e/SetFirstSpawn &7 Set the initial spawn of users."));
                 sender.sendMessage(color("&e/SetSpawn &7 Define the spawn of users."));
+                sender.sendMessage(color("&e/SetFirework &7 Change the different options for a firework launch."));
                 sender.sendMessage(color("&e/Spawn &7 Teleport to spawn."));
                 sender.sendMessage("");
                 sender.sendMessage(color("&c<----------------------->"));

@@ -18,49 +18,86 @@ Options:
   Teleport-to-firstjoin: true
   #Teleport a player when he joins
   Teleport-to-join: true
-  #Teleport a player when he falls into the void
-  VoidSpawn: true
-  # whitelist or blacklist
-  Worlds-option: 'whitelist'
-  #List of worlds to teleport the player when he voidfalls
-  # whitelist: only the worlds in the list
-  # blacklist: all the worlds except the ones in the list
-  #Example: Worlds:
-  # - world
-  # - world_nether
-  # - world_the_end
-  Worlds:
+# ─────────────── VOID TELEPORT SETTINGS ───────────────
+# Automatically teleports players to spawn if they fall into the void.
+# ──────────────────────────────────────────────────────
+
+Void-Teleport:
+  # Enable or disable void teleport feature
+  Enabled: true
+
+  # Prevents fall damage when teleported from the void
+  No-Damage: true
+
+  # Minimum Y-coordinate before the player is considered falling into the void
+  # Suggested: -15 for 1.8.x — -95 for 1.14+ due to new world generation
+  Trigger-Y-Level: -90
+
+  # Choose whether to use a whitelist or blacklist for allowed worlds
+  # Options: whitelist / blacklist
+  World-Filter-Type: whitelist
+
+  # List of worlds for which void teleport is allowed/blocked (based on filter type above)
+  Filtered-Worlds:
     - world
-  #The amount of blocks before the player falls into the void
-  # Void-fall: -15 for 1.8.x
-  # Void-fall: -95 for 1.14.x+ in this version change due to the new world generation
-  # Try by yourself
-  Void-fall: -95
-  # Cooldown for the /spawn command
-  # Leave it in true if you want cooldown for the /spawn command
-  Cooldown: true
-  #Time in Seconds to teleport the player when uses the /spawn command
-  Spawn-Cooldown: 15
+    - theangel256
+    - donate-me
+# ─────────────── /SPAWN TELEPORT SETTINGS ───────────────
+# Controls related to /spawn behavior, damage prevention, and cooldown.
+# ─────────────────────────────────────────────────────────
+
+Spawn-Teleport:
+  # Prevents fall damage after using /spawn (e.g., if falling into void)
+  No-Damage: true
+
+  # Enable or disable cooldown for the /spawn command
+  Cooldown-Enabled: true
+
+  # Time in seconds before teleporting the player after using /spawn
+  Cooldown-Time: 15
 Sounds:
-  # You can check here the whole list of minecraft sounds.
-  # 1.8.x - 1.12.x https://pastebin.com/W8ZnDx3V
-  # 1.13.x - 1.14.x https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-  #How to use Sound;Volume(10);pitch(recommended leave it in 5)
-  #Volume: 0.0 to 1.0, quiet 0, louder 10
-  #Pitch: 0.0 to 1.0, lower pitch 0, higher pitch 10
-  #Example: BLOCK_ANVIL_LAND;10;5 (its sound louder, with the original tone)
-  #Example: BLOCK_ANVIL_LAND;5;1 (its sound normal, with a Lower pitch, slower)
-  #Example: BLOCK_ANVIL_LAND;1;10 (its sound quieter , with a high pitch, faster, probably a chipmunk)
-  Spawn: true
-  Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;2;4
-  Admin-join: true
-  Admin-join-Sound: BLOCK_ANVIL_LAND;3;5
-  Join: true
-  Join-Sound: BLOCK_NOTE_BLOCK_PLING;7;5
-  First-join: true
-  First-join-Sound: ENTITY_PLAYER_LEVELUP;7;5
-  Voidfall: true
-  Voidfall-Sound: ENTITY_GENERIC_EXPLODE;7;5
+  # ─────────────── SOUND CONFIGURATION GUIDE ───────────────
+  # Check the full list of Minecraft sound names for your version:
+  #   • 1.8.x - 1.12.x → https://pastebin.com/W8ZnDx3V
+  #   • 1.13+          → https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  #
+  # Format:
+  #   SOUND_NAME;VOLUME;PITCH
+  #
+  # Values:
+  #   ▸ Volume: 1 - 10   (1 = quiet, 10 = loud)
+  #   ▸ Pitch:  1 - 10   (1 = deep/slow, 5 = normal, 10 = high/fast)
+  #
+  # Examples:
+  #   ▸ BLOCK_ANVIL_LAND;10;5 → Loud volume, normal pitch
+  #   ▸ BLOCK_ANVIL_LAND;5;1  → Medium volume, deep pitch (slower)
+  #   ▸ BLOCK_ANVIL_LAND;1;10 → Quiet, high pitch (chipmunk style)
+  # ──────────────────────────────────────────────────────────
+
+  # Sound when using /spawn
+  Spawn:
+    Enabled: true
+    Sound: ENTITY_ENDER_DRAGON_GROWL;7;1
+
+  # Sound when an admin joins the server
+  Admin-Join:
+    Enabled: true
+    Sound: BLOCK_ANVIL_LAND;5;5
+
+  # Sound for all players on join
+  Join:
+    Enabled: true
+    Sound: BLOCK_NOTE_BLOCK_PLING;7;5
+
+  # Sound for a player's first time joining
+  First-Join:
+    Enabled: true
+    Sound: ENTITY_PLAYER_LEVELUP;7;5
+
+  # Sound when a player falls into the void
+  Void-Fall:
+    Enabled: true
+    Sound: ENTITY_GENERIC_EXPLODE;7;5
 Fireworks:
   #Fireworks when the player joins
   Join:
@@ -80,11 +117,7 @@ Fireworks:
       - "GREEN"
     # Fireworks type
     # You can use the type names or the ID
-    # Example: - "BALL" or - 0
-    # Example: - "BURST" or - 1
-    # Example: - "STAR" or - 2
-    # Example: - "CREEPER" or - 3
-    # Example: - "BALL_LARGE" or - 4
+    # Fireworks Available: - "BALL", "BURST", "STAR", "CREEPER", "BALL_LARGE"
     Type: "BALL"
     # Fireworks trail
     # Defaults to false if not specified

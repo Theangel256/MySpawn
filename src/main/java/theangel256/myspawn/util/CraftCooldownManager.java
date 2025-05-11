@@ -12,7 +12,7 @@ public class CraftCooldownManager implements CooldownManager {
 
     public CraftCooldownManager(final Main plugin) {
         cooldowns = new HashMap<>();
-        defaultCooldown = plugin.getConfig().getDouble("Options.Spawn-Cooldown");
+        defaultCooldown = plugin.getConfig().getDouble("Spawn-Teleport.Cooldown-Time");
     }
 
     @Override
