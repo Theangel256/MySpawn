@@ -33,12 +33,14 @@ jobs:
       run: |
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Read release notes
+    - name: Set release notes from Changelog.md
       id: notes
       run: |
-        echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-        cat Changelog.md >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
+        {
+        echo "RELEASE_NOTES<<EOF"
+        cat Changelog.md
+        echo "EOF"
+        } >> $GITHUB_ENV
     - name: Configure Git user
       run: |
         git config --global user.email "angel.amarillas@proton.me"
