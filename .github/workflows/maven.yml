@@ -28,13 +28,17 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install -DskipTests
-    - name: Extract version and release notes from pom.xml
+    - name: Extract version from pom.xml
       id: version
       run: |
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        NOTES=$(mvn help:evaluate -Dexpression=version.release.notes -q -DforceStdout)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-        echo "NOTES=$NOTES" >> $GITHUB_ENV
+    - name: Read release notes
+      id: notes
+      run: |
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+        cat Changelog.md >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
     - name: Configure Git user
       run: |
         git config --global user.email "angel.amarillas@proton.me"
@@ -55,7 +59,7 @@ jobs:
       with:
         tag_name: ${{ env.VERSION }}
         release_name: "Release ${{ env.VERSION }}"
-        body: ${{ env.NOTES }}
+        body: ${{ env.RELEASE_NOTES }}
         files: staging/*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
