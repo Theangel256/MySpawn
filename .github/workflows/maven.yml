@@ -20,14 +20,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Extract version and release notes from pom.xml
+      - name: Extract version from pom.xml
         id: version
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          # Leer el archivo y convertirlo a un formato que respete saltos de línea
-          RELEASE_NOTES=$(awk 'BEGIN{ORS="\n"} {gsub(/\n/, "\\n"); print $0}' Changelog.md)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
@@ -40,7 +37,8 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
-          body: ${{ env.RELEASE_NOTES }}
+          body: |
+            $(cat Changelog.md)
           files: staging/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
