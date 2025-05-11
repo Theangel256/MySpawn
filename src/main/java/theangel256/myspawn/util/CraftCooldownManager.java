@@ -11,26 +11,26 @@ public class CraftCooldownManager implements CooldownManager {
     private final double defaultCooldown;
 
     public CraftCooldownManager(final Main plugin) {
-        this.cooldowns = new HashMap<>();
-        this.defaultCooldown = plugin.getConfig().getDouble("Options.Spawn-Cooldown");
+        cooldowns = new HashMap<>();
+        defaultCooldown = plugin.getConfig().getDouble("Options.Spawn-Cooldown");
     }
 
     @Override
     public double getDefaultCooldown() {
-        return this.defaultCooldown;
+        return defaultCooldown;
     }
 
     @Override
     public double getCooldown(final UUID playerUUID) {
-        return this.cooldowns.getOrDefault(playerUUID, 0.0);
+        return cooldowns.getOrDefault(playerUUID, 0.0);
     }
 
     @Override
     public void setCooldown(final UUID playerUUID, final double time) {
         if (time <= 0.0) {
-            this.cooldowns.remove(playerUUID);
+            cooldowns.remove(playerUUID);
         } else {
-            this.cooldowns.put(playerUUID, time);
+            cooldowns.put(playerUUID, time);
         }
     }
 }

@@ -12,15 +12,13 @@ import java.net.URLConnection;
 public class UpdateChecker {
     private final int project;
     private String newVersion;
-    private final JavaPlugin plugin;
     private URL checkURL;
 
-    public UpdateChecker(final JavaPlugin plugin, final int projectID) {
-        this.plugin = plugin;
-        this.project = projectID;
-        this.newVersion = plugin.getDescription().getVersion();
+    public UpdateChecker(JavaPlugin plugin, final int projectID) {
+        project = projectID;
+        newVersion = plugin.getDescription().getVersion();
         try {
-            this.checkURL = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectID);
+            checkURL = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectID);
         } catch (MalformedURLException e) {
             Bukkit.getLogger().warning("§4Could not connect to Spigot, plugin disabled!");
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -28,12 +26,12 @@ public class UpdateChecker {
     }
 
     public String getResourceUrl() {
-        return "https://spigotmc.org/resources/" + this.project;
+        return "https://spigotmc.org/resources/" + project;
     }
 
-    public boolean checkForUpdates() throws Exception {
-        final URLConnection con = this.checkURL.openConnection();
-        this.newVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
-        return !this.plugin.getDescription().getVersion().equals(this.newVersion);
+    public boolean checkForUpdates(JavaPlugin plugin) throws Exception {
+        final URLConnection con = checkURL.openConnection();
+        newVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+        return !plugin.getDescription().getVersion().equals(newVersion);
     }
 }

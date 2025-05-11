@@ -12,10 +12,10 @@ import theangel256.myspawn.util.LocationManager;
 
 import java.util.Objects;
 
-public class CommandSetFirstSpawn implements CommandExecutor {
+public class SetFirstSpawn implements CommandExecutor {
     private final Main plugin;
 
-    public CommandSetFirstSpawn(final Main plugin) {
+    public SetFirstSpawn(final Main plugin) {
         this.plugin = plugin;
     }
 

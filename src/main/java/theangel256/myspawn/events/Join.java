@@ -2,21 +2,19 @@ package theangel256.myspawn.events;
 
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.meta.FireworkMeta;
 import theangel256.myspawn.Main;
 import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.SoundHandler;
 import theangel256.myspawn.util.UpdateChecker;
-import theangel256.myspawn.util.VersionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static theangel256.myspawn.Main.color;
+import static theangel256.myspawn.util.FireworkHandler.launchFirework;
 
 public class Join implements Listener {
     private final Main plugin;
@@ -44,26 +42,24 @@ public class Join implements Listener {
             SoundHandler.playSoundToPlayer(config, "Sounds.Admin-join", p, plugin.nombre, plugin.lang);
         }
         if (p.hasPlayedBefore()) {
-            if (config.getBoolean("Options.Teleport-to-join")) {
-                final LocationManager spawnCoords = LocationManager.getManager();
-                if (spawnCoords.getConfig().contains("Spawn.x")) {
-                    final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-                    final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-                    final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-                    final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-                    final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-                    final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
-                    final Location loc = new Location(w, x, y, z, yaw, pitch);
-                    p.teleport(loc);
-                }
+            final LocationManager spawnCoords = LocationManager.getManager();
+            if (spawnCoords.getConfig().contains("Spawn.x")) {
+                final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
+                final double x = spawnCoords.getConfig().getDouble("Spawn.x");
+                final double y = spawnCoords.getConfig().getDouble("Spawn.y");
+                final double z = spawnCoords.getConfig().getDouble("Spawn.z");
+                final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
+                final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
+                final Location loc = new Location(w, x, y, z, yaw, pitch);
+                p.teleport(loc);
             }
             final String joinText = Main.getMessages().getString("Messages.Player-join");
             event.setJoinMessage(null);
             if (config.getBoolean("Options.Player-join")) {
                 Bukkit.broadcastMessage(color(joinText).replace("{player}", p.getName()));
             }
-            if (config.getBoolean("Fireworks.Join")) {
-                launchFirework(p);
+            if (config.getBoolean("Fireworks.Join.Enabled")) {
+                launchFirework(config, "Fireworks.Join", p, plugin.nombre, plugin.lang);
             }
             if (joinSoundEnabled && !isAdmin) {
                 SoundHandler.playSoundToPlayer(config, "Sounds.Join", p, plugin.nombre, plugin.lang);
@@ -71,6 +67,12 @@ public class Join implements Listener {
 
         } else {
             if (config.getBoolean("Options.Teleport-to-firstjoin")) {
+                if (config.getString("Options.Worlds-option").equals("whitelist") && config.getStringList("Options.Worlds") != null && !config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                    return;
+                }
+                if (config.getString("Options.Worlds-option").equals("blacklist") && config.getStringList("Options.Worlds") != null && config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                    return;
+                }
                 final LocationManager spawnCoords = LocationManager.getManager();
                 if (spawnCoords.getConfig().contains("FirstSpawn.x")) {
                     final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("FirstSpawn.world"));
@@ -88,8 +90,8 @@ public class Join implements Listener {
                 event.setJoinMessage(null);
                 Bukkit.broadcastMessage(color(joinFirstText).replace("{player}", p.getName()));
             }
-            if (config.getBoolean("Fireworks.First-join")) {
-                launchFirework(p);
+            if (config.getBoolean("Fireworks.First-join.Enabled")) {
+                launchFirework(config, "Fireworks.First-join", p, plugin.nombre, plugin.lang);
             }
             if (firstJoinSoundEnabled) {
                 SoundHandler.playSoundToPlayer(config, "Sounds.First-join", p, plugin.nombre, plugin.lang);
@@ -100,13 +102,13 @@ public class Join implements Listener {
             final UpdateChecker updater = new UpdateChecker(plugin, 64762);
             if (p.isOp() || p.hasPermission(updatePermission)) {
                 try {
-                    if (updater.checkForUpdates()) {
+                    if (updater.checkForUpdates(plugin)) {
                         if (plugin.lang.equalsIgnoreCase("messages_es")) {
-                            p.sendMessage(color(plugin.nombre + "&a Nueva version disponible."));
-                            p.sendMessage(color(plugin.nombre + "&e Puedes descargarlo en: &fhttps://www.spigotmc.org/resources/64762"));
+                            p.sendMessage(color(plugin.nombre + " &aNueva version disponible."));
+                            p.sendMessage(color(plugin.nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
                         } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
-                            p.sendMessage(color(plugin.nombre + "&a New version available."));
-                            p.sendMessage(color(plugin.nombre + "&e You can download it in: &fhttps://www.spigotmc.org/resources/64762"));
+                            p.sendMessage(color(plugin.nombre + " &aNew version available."));
+                            p.sendMessage(color(plugin.nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
                         }
                     }
                 } catch (Exception e) {
@@ -117,30 +119,5 @@ public class Join implements Listener {
                 }
             }
         }
-    }
-
-    private static void launchFirework(Player p) {
-        EntityType fireworkType;
-        if (VersionUtils.isLegacy()) {
-            fireworkType = EntityType.FIREWORK;
-        } else {
-            try {
-                fireworkType = EntityType.valueOf("FIREWORK_ROCKET"); // Solo existe desde 1.13+
-            } catch (IllegalArgumentException e) {
-                fireworkType = EntityType.FIREWORK; // Fallback seguro
-            }
-        }
-        final Firework firework = (Firework) p.getWorld().spawnEntity(p.getLocation(), fireworkType);
-        FireworkMeta meta = firework.getFireworkMeta();
-        meta.setPower(0);
-        List<Color> colors = new ArrayList<>();
-        colors.add(Color.ORANGE);
-        colors.add(Color.WHITE);
-        meta.addEffect(FireworkEffect.builder().flicker(true).trail(true).with(FireworkEffect.Type.BALL_LARGE).withColor(colors).build());
-        firework.setFireworkMeta(meta);
-    }
-
-    private static String color(String msg) {
-        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

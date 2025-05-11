@@ -1,10 +1,11 @@
 package theangel256.myspawn.util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import static theangel256.myspawn.Main.color;
 
 public class SoundHandler {
 
@@ -19,7 +20,6 @@ public class SoundHandler {
             Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + InvalidConfig));
             return;
         }
-
         String[] parts = fullPath.split(";");
         if (parts.length < 3) {
             String InvalidFormat = lang.equalsIgnoreCase("messages_es")
@@ -30,7 +30,10 @@ public class SoundHandler {
         }
 
         try {
-            Sound sound = Sound.valueOf(parts[0].toUpperCase());
+            String soundName = VersionUtils.isLegacy()
+                    ? VersionUtils.suggestLegacySound(parts[0]) != null ? VersionUtils.suggestLegacySound(parts[0]) : parts[0]
+                    : parts[0];
+            Sound sound = Sound.valueOf(soundName.toUpperCase());
             float volume = Math.max(0.0f, Math.min(Float.parseFloat(parts[1]), 10.0f)); // tope práctico
             float pitch = Math.max(0.5f, Math.min(Float.parseFloat(parts[2]), 2.0f));     // tono seguro
 
@@ -38,15 +41,14 @@ public class SoundHandler {
             if (pitch <= 0) pitch = 1.0f;
             player.playSound(player.getLocation(), sound, volume, pitch);
         } catch (Exception e) {
-            String InvalidSound = lang.equalsIgnoreCase("messages_es")
-                    ? "&cERROR: El sonido &e" + parts[0] + " &ces invalido o mal configurado."
-                    : "&cERROR: The sound &e" + parts[0] + " &cis invalid or misconfigured.";
-            Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + InvalidSound));
+            String suggested = VersionUtils.suggestLegacySound(parts[0]);
+            String suggestionMsg = (suggested != null)
+                    ? " Sugerido: " + suggested
+                    : "";
+            String errorMsg = lang.equalsIgnoreCase("messages_es")
+                    ? "&cERROR: El sonido &e" + parts[0] + " &ces invalido o mal configurado." + suggestionMsg
+                    : "&cERROR: The sound &e" + parts[0] + " &cis invalid or misconfigured." + suggestionMsg;
+            Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + errorMsg));
         }
-    }
-
-
-    private static String color(String msg) {
-        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

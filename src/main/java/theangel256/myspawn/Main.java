@@ -7,10 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import theangel256.myspawn.commands.CommandPrincipal;
-import theangel256.myspawn.commands.CommandSetFirstSpawn;
-import theangel256.myspawn.commands.CommandSetSpawn;
-import theangel256.myspawn.commands.CommandSpawn;
+import theangel256.myspawn.commands.*;
 import theangel256.myspawn.events.Join;
 import theangel256.myspawn.events.Playervoid;
 import theangel256.myspawn.events.Quit;
@@ -31,46 +28,47 @@ public class Main extends JavaPlugin implements Listener {
     public String lang;
 
     public Main() {
-        this.pdffile = this.getDescription();
-        this.config = this.getConfig();
-        this.version = this.pdffile.getVersion();
-        this.nombre = ChatColor.GRAY + "[" + ChatColor.YELLOW + this.getName() + ChatColor.GRAY + "]";
-        this.lang = String.format("Messages_%s", this.config.getString("Options.Language"));
+        pdffile = getDescription();
+        config = getConfig();
+        version = pdffile.getVersion();
+        nombre = ChatColor.GRAY + "[" + ChatColor.YELLOW + getName() + ChatColor.GRAY + "]";
+        lang = String.format("Messages_%s", config.getString("Options.Language"));
     }
 
     public void onEnable() {
-        this.RegistrarComandos();
-        this.RegistrarEventos();
-        this.RegistrarConfig();
+        RegistrarComandos();
+        RegistrarEventos();
+        RegistrarConfig();
         LocationManager.getManager().setupFiles();
         LocationManager.getManager().reloadConfig();
-        Main.Messages = new PluginConfig(this, "Messages_" + this.config.getString("Options.Language"));
-        if (this.config.getBoolean("Update-check")) {
+        Main.Messages = new PluginConfig(this, "Messages_" + config.getString("Options.Language"));
+        if (config.getBoolean("Update-check")) {
             final UpdateChecker updater = new UpdateChecker(this, 64762);
             try {
-                if (updater.checkForUpdates()) {
-                    if (this.lang.equalsIgnoreCase("messages_es")) {
-                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.GREEN + " Nueva version disponible.");
-                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.YELLOW + " Puedes descargarlo en: &fhttps://www.spigotmc.org/resources/64762");
-                    } else if (this.lang.equalsIgnoreCase("messages_en")) {
-                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.GREEN + " New version available.");
-                        Bukkit.getConsoleSender().sendMessage(this.nombre + ChatColor.YELLOW + " You can download it in: &fhttps://www.spigotmc.org/resources/64762");
+                if (updater.checkForUpdates(this)) {
+                    if (lang.equalsIgnoreCase("messages_es")) {
+                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &aNueva version disponible."));
+                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
+                    } else if (lang.equalsIgnoreCase("messages_en")) {
+                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &aNew version available."));
+                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
                     }
                 }
             } catch (Exception e) {
-                String missingPageSpigot = this.lang.equalsIgnoreCase("messages_es")
+                String missingPageSpigot = lang.equalsIgnoreCase("messages_es")
                         ? ChatColor.RED + " El plugin no se encuentra en la pagina de spigot"
                         : ChatColor.RED + " The plugin is not found in the spigot page";
-                Bukkit.getConsoleSender().sendMessage(this.nombre + missingPageSpigot);
+                Bukkit.getConsoleSender().sendMessage(nombre + missingPageSpigot);
             }
         }
     }
 
     public void RegistrarComandos() {
-        Objects.requireNonNull(this.getCommand("MySpawn")).setExecutor(new CommandPrincipal(this));
-        Objects.requireNonNull(this.getCommand("Spawn")).setExecutor(new CommandSpawn(this));
-        Objects.requireNonNull(this.getCommand("SetSpawn")).setExecutor(new CommandSetSpawn(this));
-        Objects.requireNonNull(this.getCommand("SetFirstSpawn")).setExecutor(new CommandSetFirstSpawn(this));
+        Objects.requireNonNull(getCommand("MySpawn")).setExecutor(new Principal(this));
+        Objects.requireNonNull(getCommand("Spawn")).setExecutor(new Spawn(this));
+        Objects.requireNonNull(getCommand("SetSpawn")).setExecutor(new SetSpawn(this));
+        Objects.requireNonNull(getCommand("SetFirstSpawn")).setExecutor(new SetFirstSpawn(this));
+        Objects.requireNonNull(getCommand("SetFirweork")).setExecutor(new SetFirework(this));
     }
 
     public void RegistrarEventos() {
@@ -81,15 +79,19 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void RegistrarConfig() {
-        final File config = new File(this.getDataFolder(), "config.yml");
-        this.rutaConfig = config.getPath();
+        final File config = new File(getDataFolder(), "config.yml");
+        rutaConfig = config.getPath();
         if (!config.exists()) {
-            this.getConfig().options().copyDefaults(true);
-            this.saveDefaultConfig();
+            getConfig().options().copyDefaults(true);
+            saveDefaultConfig();
         }
     }
 
     public static PluginConfig getMessages() {
         return Main.Messages;
+    }
+
+    public static String color(String msg) {
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

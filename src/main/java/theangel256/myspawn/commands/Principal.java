@@ -1,6 +1,5 @@
 package theangel256.myspawn.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,10 +7,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import theangel256.myspawn.Main;
 import theangel256.myspawn.util.LocationManager;
 
-public class CommandPrincipal implements CommandExecutor {
+import static theangel256.myspawn.Main.color;
+
+public class Principal implements CommandExecutor {
     private final Main plugin;
 
-    public CommandPrincipal(final Main plugin) {
+    public Principal(final Main plugin) {
         this.plugin = plugin;
     }
 
@@ -68,9 +69,5 @@ public class CommandPrincipal implements CommandExecutor {
             sender.sendMessage(color(plugin.nombre + "&c Opcion incorrecta!"));
             return true;
         }
-    }
-
-    private static String color(String msg) {
-        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

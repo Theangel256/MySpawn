@@ -33,6 +33,12 @@ public class Playervoid implements Listener {
                 return;
             }
             final Player p = e.getPlayer();
+            if (config.getString("Options.Worlds-option").equals("whitelist") && config.getStringList("Options.Worlds") != null && !config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                return;
+            }
+            if (config.getString("Options.Worlds-option").equals("blacklist") && config.getStringList("Options.Worlds") != null && config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                return;
+            }
             final LocationManager spawnCoords = LocationManager.getManager();
             if (spawnCoords.getConfig().contains("Spawn.x")) {
                 final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
@@ -42,12 +48,6 @@ public class Playervoid implements Listener {
                 final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
                 final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
                 final Location loc = new Location(w, x, y, z, yaw, pitch);
-                if (config.getString("Options.Worlds-option").equals("whitelist") && config.getStringList("Options.Worlds") != null && !config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
-                    return;
-                }
-                if (config.getString("Options.Worlds-option").equals("blacklist") && config.getStringList("Options.Worlds") != null && config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
-                    return;
-                }
                 p.teleport(loc);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getMessages().getString("Messages.Voidfall")));
                 if (config.getBoolean("Sounds.Voidfall")) {

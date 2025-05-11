@@ -16,7 +16,7 @@ public class LocationManager {
     private static final LocationManager manager = new LocationManager();
 
     private LocationManager() {
-        this.plugin = Main.getPlugin(Main.class);
+        plugin = Main.getPlugin(Main.class);
     }
 
     public static LocationManager getManager() {
@@ -24,46 +24,45 @@ public class LocationManager {
     }
 
     public void setupFiles() {
-        this.location = new File(this.plugin.getDataFolder(), "Spawn.yml");
-        if (!this.location.exists()) {
-            File parentDir = this.location.getParentFile();
+        location = new File(plugin.getDataFolder(), "Spawn.yml");
+        if (!location.exists()) {
+            File parentDir = location.getParentFile();
             if (!parentDir.exists() && !parentDir.mkdirs()) {
                 plugin.getLogger().warning("No se pudo crear el directorio para Spawn.yml en: " + parentDir.getAbsolutePath());
                 return; // evita continuar si no se puede crear la carpeta
             }
-
-            this.plugin.saveResource("Spawn.yml", false);
+            plugin.saveResource("Spawn.yml", false);
         }
-        this.spawnCoords = new YamlConfiguration();
+        spawnCoords = new YamlConfiguration();
         try {
-            this.spawnCoords.load(this.location);
+            spawnCoords.load(location);
         } catch (IOException | InvalidConfigurationException ex) {
             plugin.getLogger().log(Level.SEVERE, "Error al cargar Spawn.yml", ex);
         }
     }
 
     public FileConfiguration getConfig() {
-        return this.spawnCoords;
+        return spawnCoords;
     }
 
     public void saveConfig() {
-        if (this.spawnCoords == null || this.location == null) {
+        if (spawnCoords == null || location == null) {
             plugin.getLogger().warning("No se puede guardar Spawn.yml: archivo o configuración no inicializados.");
             return;
         }
         try {
-            this.spawnCoords.save(this.location);
+            spawnCoords.save(location);
         } catch (IOException ex) {
-            plugin.getLogger().severe("Error al guardar Spawn.yml en: " + this.location.getAbsolutePath());
+            plugin.getLogger().severe("Error al guardar Spawn.yml en: " + location.getAbsolutePath());
             plugin.getLogger().log(Level.SEVERE, "Detalles del error:", ex);
         }
     }
 
     public void reloadConfig() {
-        if (this.location == null || !this.location.exists()) {
+        if (location == null || !location.exists()) {
             plugin.getLogger().warning("No se puede recargar Spawn.yml: archivo no encontrado.");
             return;
         }
-        this.spawnCoords = YamlConfiguration.loadConfiguration(this.location);
+        spawnCoords = YamlConfiguration.loadConfiguration(location);
     }
 }

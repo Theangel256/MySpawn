@@ -14,7 +14,7 @@ Options:
   #- '&6&lWelcome to &c&lserver &a&l{player}'
   #- '&m                                             '
   Motd: true
-  #Teleport a player when he first joined
+  #Teleport a player when he joins for the first time
   Teleport-to-firstjoin: true
   #Teleport a player when he joins
   Teleport-to-join: true
@@ -22,7 +22,13 @@ Options:
   VoidSpawn: true
   # whitelist or blacklist
   Worlds-option: 'whitelist'
-  #List of worlds
+    #List of worlds to teleport the player when he voidfalls
+    # whitelist: only the worlds in the list
+    # blacklist: all the worlds except the ones in the list
+    #Example: Worlds:
+  # - world
+  # - world_nether
+  # - world_the_end
   Worlds:
     - world
   #The amount of blocks before the player falls into the void
@@ -30,7 +36,7 @@ Options:
   # Void-fall: -95 for 1.14.x+ in this version change due to the new world generation
   # Try by yourself
   Void-fall: -95
-  #Time in Seconds - ONLY 1.8.x
+  #Time in Seconds to teleport the player when uses the /spawn command
   Spawn-Cooldown: 15
 Sounds:
   # You can check here the whole list of minecraft sounds.
@@ -50,9 +56,60 @@ Sounds:
   Voidfall: true
   Voidfall-Sound: ENTITY_GENERIC_EXPLODE;1.0f;1.0f
 Fireworks:
-  Join: true
-  First-join: true
-  Spawn: true
+  #Fireworks when the player joins
+  Join:
+    Enabled: true
+    # Fireworks power
+    # The power of the fireworks, from 1 to 3
+    Power: 1
+    #Fireworks colors
+    # List of named colors to use
+    # "RED", "GREEN", "BLUE", "YELLOW", "PURPLE", "WHITE", "BLACK", "ORANGE", "PINK", "CYAN", "MAGENTA", "LIME", "LIGHT_BLUE", "BROWN", "LIGHT_GRAY", "GRAY"
+    # You can use the color names or Hexadecimal values
+    #  - "#FF5733"   # Hexadecimal color
+    #  - "RED"       # Named color
+    #  - "#00FF00"   # Hexadecimal color
+    Colors:
+      - "RED"
+      - "GREEN"
+    # Fireworks type
+    # You can use the type names or the ID
+    # Example: - "BALL" or - 0
+    # Example: - "BURST" or - 1
+    # Example: - "STAR" or - 2
+    # Example: - "CREEPER" or - 3
+    # Example: - "BALL_LARGE" or - 4
+    Type: "BALL"
+    # Fireworks trail
+    # Defaults to false if not specified
+    Trail: true
+    # Fireworks flicker
+    # Defaults to false if not specified
+    Flicker: false
+  #Fireworks when the player first joins
+  First-join:
+    Enabled: true
+    Power: 2
+    Colors:
+      - "BLUE"
+      - "YELLOW"
+    Type: "STAR"
+    Trail: true
+    Flicker: false
+  #Fireworks when the player uses the /spawn command
+  Spawn:
+    Enabled: true
+    Power: 3
+    Colors:
+      - "PURPLE"
+      - "WHITE"
+    Type: "BURST"
+    # Fireworks trail
+    # Defaults to false if not specified
+    Trail: true
+    # Fireworks flicker
+    # Defaults to false if not specified
+    Flicker: false
 Permissions:
   Update-check: 'myspawn.update-check'
   Admin-join: 'myspawn.admin'

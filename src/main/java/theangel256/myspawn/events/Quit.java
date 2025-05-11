@@ -17,7 +17,7 @@ public class Quit implements Listener {
 
     @EventHandler
     public void alSalir(final PlayerQuitEvent event) {
-        final FileConfiguration config = this.plugin.getConfig();
+        final FileConfiguration config = plugin.getConfig();
         final String quitText = Main.getMessages().getString("Messages.Player-quit");
         event.setQuitMessage(null);
         if (config.getBoolean("Options.Player-quit")) {
