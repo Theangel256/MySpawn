@@ -11,5 +11,6 @@
 
 - Fixed a bug where the spawn teleportation on join option was not working correctly
 - Plugin should be correctly works on 1.21.5 with Java 17+
+- Fixes Sounds in 1.9+ - 1.12.x they are not working correctly
 ### Know issues:
 - Fireworks make damage to the player when

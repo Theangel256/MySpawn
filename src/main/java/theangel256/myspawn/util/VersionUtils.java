@@ -11,7 +11,7 @@ public class VersionUtils {
     }
 
     public static boolean isLegacy() {
-        return VERSION.startsWith("v1_8") || VERSION.startsWith("v1_9") || VERSION.startsWith("v1_10") || VERSION.startsWith("v1_11") || VERSION.startsWith("v1_12");
+        return VERSION.startsWith("v1_8");
     }
 
     public static String suggestLegacySound(String name) {
