@@ -44,16 +44,18 @@ public class Join implements Listener {
             SoundHandler.playSoundToPlayer(config, "Sounds.Admin-join", p, plugin.nombre, plugin.lang);
         }
         if (p.hasPlayedBefore()) {
-            final LocationManager spawnCoords = LocationManager.getManager();
-            if (spawnCoords.getConfig().contains("Spawn.x")) {
-                final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-                final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-                final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-                final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-                final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-                final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
-                final Location loc = new Location(w, x, y, z, yaw, pitch);
-                p.teleport(loc);
+            if(config.getBoolean("Options.Teleport-to-join")) {
+                final LocationManager spawnCoords = LocationManager.getManager();
+                if (spawnCoords.getConfig().contains("Spawn.x")) {
+                    final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
+                    final double x = spawnCoords.getConfig().getDouble("Spawn.x");
+                    final double y = spawnCoords.getConfig().getDouble("Spawn.y");
+                    final double z = spawnCoords.getConfig().getDouble("Spawn.z");
+                    final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
+                    final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
+                    final Location loc = new Location(w, x, y, z, yaw, pitch);
+                    p.teleport(loc);
+                }
             }
             final String joinText = Main.getMessages().getString("Messages.Player-join");
             event.setJoinMessage(null);
