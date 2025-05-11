@@ -35,6 +35,10 @@ jobs:
         NOTES=$(mvn help:evaluate -Dexpression=version.release.notes -q -DforceStdout)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "NOTES=$NOTES" >> $GITHUB_ENV
+    - name: Configure Git user
+      run: |
+        git config --global user.email "angel.amarillas@proton.me"
+        git config --global user.name "Theangel256"
     - name: Create Git tag for release
       run: |
         git tag -a "v${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
