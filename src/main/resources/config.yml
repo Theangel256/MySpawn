@@ -22,10 +22,10 @@ Options:
   VoidSpawn: true
   # whitelist or blacklist
   Worlds-option: 'whitelist'
-    #List of worlds to teleport the player when he voidfalls
-    # whitelist: only the worlds in the list
-    # blacklist: all the worlds except the ones in the list
-    #Example: Worlds:
+  #List of worlds to teleport the player when he voidfalls
+  # whitelist: only the worlds in the list
+  # blacklist: all the worlds except the ones in the list
+  #Example: Worlds:
   # - world
   # - world_nether
   # - world_the_end
@@ -36,6 +36,9 @@ Options:
   # Void-fall: -95 for 1.14.x+ in this version change due to the new world generation
   # Try by yourself
   Void-fall: -95
+  # Cooldown for the /spawn command
+  # Leave it in true if you want cooldown for the /spawn command
+  Cooldown: true
   #Time in Seconds to teleport the player when uses the /spawn command
   Spawn-Cooldown: 15
 Sounds:
@@ -46,15 +49,15 @@ Sounds:
   #Example: BLOCK_ANVIL_LAND;1.0f;1.0f (its sound a distance of 16 blocks, with the original tone)
   #Example: BLOCK_ANVIL_LAND;0.5f;0.5f (its sound a distance of 8 blocks, with a Lower pitch, slower)
   Spawn: true
-  Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;1.0f;1.0f
+  Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;2;4
   Admin-join: true
-  Admin-join-Sound: BLOCK_ANVIL_LAND;1.0f;1.0f
+  Admin-join-Sound: BLOCK_ANVIL_LAND;3;5
   Join: true
-  Join-Sound: BLOCK_NOTE_BLOCK_PLING;1.0f;1.0f
+  Join-Sound: BLOCK_NOTE_BLOCK_PLING;7;5
   First-join: true
-  First-join-Sound: WITHER_SPAWN;1.0f;1.0f
+  First-join-Sound: ENTITY_PLAYER_LEVELUP;7;5
   Voidfall: true
-  Voidfall-Sound: ENTITY_GENERIC_EXPLODE;1.0f;1.0f
+  Voidfall-Sound: ENTITY_GENERIC_EXPLODE;7;5
 Fireworks:
   #Fireworks when the player joins
   Join:
@@ -116,3 +119,4 @@ Permissions:
   Reload: 'myspawn.reload'
   Set-Spawn: 'myspawn.setspawn'
   Set-FirstSpawn: 'myspawn.setfirstspawn'
+  Bypass-Cooldown: 'myspawn.bypass-cooldown'

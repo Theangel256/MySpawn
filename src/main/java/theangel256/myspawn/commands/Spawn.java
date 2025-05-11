@@ -31,38 +31,44 @@ public class Spawn implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
         final FileConfiguration config = plugin.getConfig();
         if (sender instanceof Player p) {
-            final double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
-            if (TimeUnit.MILLISECONDS.toSeconds((long) timeLeft) >= cooldownManager.getDefaultCooldown()) {
-                plugin.saveDefaultConfig();
-                final LocationManager spawnCoords = LocationManager.getManager();
-                if (spawnCoords.getConfig().contains("Spawn.x")) {
-                    final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-                    final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-                    final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-                    final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-                    final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-                    final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
-                    final Location loc = new Location(w, x, y, z, yaw, pitch);
-                    p.teleport(loc);
-                    if (config.getBoolean("Fireworks.Spawn.Enabled")) {
-                        launchFirework(config, "Fireworks.Spawn", p, plugin.nombre, plugin.lang);
-                    }
-                    if (config.getBoolean("Sounds.Spawn")) {
-                        SoundHandler.playSoundToPlayer(config, "Sounds.Spawn", p, plugin.nombre, plugin.lang);
-                    }
-                    p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));
-                    cooldownManager.setCooldown(p.getUniqueId(), (double) System.currentTimeMillis());
-                    return true; // Comando exitoso
+            boolean isCooldownEnabled = config.getBoolean("Options.Cooldown", true);
+            long timeLeft = (long) (System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId()));
+            long cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds(timeLeft);
+            boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
+            if (isCooldownEnabled) {
+                if (cooldownInSeconds >= cooldownManager.getDefaultCooldown() && !canBypassCooldown) {
+                    String cooldownMessage = Main.getMessages().getString("Messages.Cooldown");
+                    p.sendMessage(color(cooldownMessage).replace("{time}", String.valueOf(cooldownManager.getDefaultCooldown() - cooldownInSeconds)));
+                    return true;
                 }
-                p.sendMessage(color(Main.getMessages().getString("Messages.UndefinedSpawn")));
+            }
+            plugin.saveDefaultConfig();
+            final LocationManager spawnCoords = LocationManager.getManager();
+            if (spawnCoords.getConfig().contains("Spawn.x")) {
+                final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
+                final double x = spawnCoords.getConfig().getDouble("Spawn.x");
+                final double y = spawnCoords.getConfig().getDouble("Spawn.y");
+                final double z = spawnCoords.getConfig().getDouble("Spawn.z");
+                final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
+                final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
+                final Location loc = new Location(w, x, y, z, yaw, pitch);
+                p.teleport(loc);
+                if (config.getBoolean("Fireworks.Spawn.Enabled")) {
+                    launchFirework(config, "Fireworks.Spawn", p, plugin.nombre, plugin.lang);
+                }
+                if (config.getBoolean("Sounds.Spawn")) {
+                    SoundHandler.playSoundToPlayer(config, "Sounds.Spawn", p, plugin.nombre, plugin.lang);
+                }
+                p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));
+                cooldownManager.setCooldown(p.getUniqueId(), (double) System.currentTimeMillis());
                 return true;
             }
-            final String CooldownMessage = Main.getMessages().getString("Messages.Cooldown");
-            p.sendMessage(color(CooldownMessage).replace("{time}", String.valueOf(Math.round(cooldownManager.getDefaultCooldown() - TimeUnit.MILLISECONDS.toSeconds((long) timeLeft)))));
-        } else if (plugin.lang.equalsIgnoreCase("messages_es")) {
-            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " &cNo puedes usar comandos desde la consola"));
-        } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
-            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " &cYou can not use commands from the console"));
+            p.sendMessage(color(Main.getMessages().getString("Messages.UndefinedSpawn")));
+        } else {
+            String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? " &cNo puedes usar este comando desde la consola"
+                    : " &cYou can not use this command from the console";
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
         }
         return true;
     }

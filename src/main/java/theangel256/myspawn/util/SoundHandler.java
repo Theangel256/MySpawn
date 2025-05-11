@@ -34,11 +34,9 @@ public class SoundHandler {
                     ? VersionUtils.suggestLegacySound(parts[0]) != null ? VersionUtils.suggestLegacySound(parts[0]) : parts[0]
                     : parts[0];
             Sound sound = Sound.valueOf(soundName.toUpperCase());
-            float volume = Math.max(0.0f, Math.min(Float.parseFloat(parts[1]), 10.0f)); // tope práctico
-            float pitch = Math.max(0.5f, Math.min(Float.parseFloat(parts[2]), 2.0f));     // tono seguro
+            float volume = Math.max(0.0f, Math.min((Float.parseFloat(parts[1]) - 1) / 9.0f, 1.0f)); // Mapping 1-10 -> 0.0-1.0
+            float pitch = Math.max(0.5f, Math.min(0.5f + (Float.parseFloat(parts[2]) - 1) * 0.15f, 2.0f)); // Mapping 1-10 -> 0.5-2.0
 
-            if (volume <= 0) volume = 1.0f;
-            if (pitch <= 0) pitch = 1.0f;
             player.playSound(player.getLocation(), sound, volume, pitch);
         } catch (Exception e) {
             String suggested = VersionUtils.suggestLegacySound(parts[0]);
