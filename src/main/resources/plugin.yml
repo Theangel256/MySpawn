@@ -16,3 +16,6 @@ commands:
   setfirstspawn:
     description: Establece el spawn inicial
     usage: /setfirstspawn
+  setfirework:
+    description: Modifica la configuracion de los fuegos artificiales
+    usage: /setfirework <power|color|type|trail|flicker>
