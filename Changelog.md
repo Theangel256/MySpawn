@@ -1,8 +1,8 @@
-# MySpawn 2.1b26
+# MySpawn 2.1a27
 
 ### Features:
 
-- Bump to Beta Update 2.1b26
+- Bump to Beta Update 2.1a27
 - Automatically validate and suggest converting new sounds to Legacy (1.8.8) sounds when reading from
   config.yml
 - Extend Configuration to Support Customization Fireworks!
