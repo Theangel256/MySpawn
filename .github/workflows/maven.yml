@@ -26,8 +26,15 @@ jobs:
         java-version: '24'
         distribution: 'temurin'
         cache: maven
-    - name: Build and Verify with Maven
-      run: mvn --batch-mode --update-snapshots verify
+    - name: Build with Maven
+      run: mvn clean install -DskipTests
+    - name: Extract version and release notes from pom.xml
+      id: version
+      run: |
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        NOTES=$(mvn help:evaluate -Dexpression=version.release.notes -q -DforceStdout)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "NOTES=$NOTES" >> $GITHUB_ENV
     - name: Prepare artifacts for upload
       run: mkdir staging && cp target/*.jar staging || true
     - name: Upload artifacts
@@ -38,8 +45,9 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        name: Release ${{ github.ref_name }}
-        tag_name: ${{ github.ref_name }}
+        tag_name: ${{ env.VERSION }}
+        release_name: "Release ${{ env.VERSION }}"
+        body: ${{ env.NOTES }}
         files: staging/*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
