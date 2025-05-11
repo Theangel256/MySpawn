@@ -32,11 +32,11 @@ public class Spawn implements CommandExecutor {
         final FileConfiguration config = plugin.getConfig();
         if (sender instanceof Player p) {
             boolean isCooldownEnabled = config.getBoolean("Options.Cooldown", true);
-            long timeLeft = (long) (System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId()));
-            long cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds(timeLeft);
+            double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
+            double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
             boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
             if (isCooldownEnabled) {
-                if (cooldownInSeconds >= cooldownManager.getDefaultCooldown() && !canBypassCooldown) {
+                if (cooldownInSeconds < cooldownManager.getDefaultCooldown() && (!canBypassCooldown)) {
                     String cooldownMessage = Main.getMessages().getString("Messages.Cooldown");
                     p.sendMessage(color(cooldownMessage).replace("{time}", String.valueOf(cooldownManager.getDefaultCooldown() - cooldownInSeconds)));
                     return true;

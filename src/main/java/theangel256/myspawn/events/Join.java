@@ -1,6 +1,8 @@
 package theangel256.myspawn.events;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -67,10 +69,10 @@ public class Join implements Listener {
 
         } else {
             if (config.getBoolean("Options.Teleport-to-firstjoin")) {
-                if (config.getString("Options.Worlds-option").equals("whitelist") && config.getStringList("Options.Worlds") != null && !config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                if (config.getString("Options.Worlds-option").equals("whitelist") && (config.getStringList("Options.Worlds") != null) && (!config.getStringList("Options.Worlds").contains(p.getWorld().getName()))) {
                     return;
                 }
-                if (config.getString("Options.Worlds-option").equals("blacklist") && config.getStringList("Options.Worlds") != null && config.getStringList("Options.Worlds").contains(p.getWorld().getName())) {
+                if (config.getString("Options.Worlds-option").equals("blacklist") && (config.getStringList("Options.Worlds") != null) && (config.getStringList("Options.Worlds").contains(p.getWorld().getName()))) {
                     return;
                 }
                 final LocationManager spawnCoords = LocationManager.getManager();

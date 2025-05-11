@@ -45,9 +45,12 @@ Sounds:
   # You can check here the whole list of minecraft sounds.
   # 1.8.x - 1.12.x https://pastebin.com/W8ZnDx3V
   # 1.13.x - 1.14.x https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-  #How to use Sound;Volume(1.0f);pitch(recommended leave it in 1.0f)
-  #Example: BLOCK_ANVIL_LAND;1.0f;1.0f (its sound a distance of 16 blocks, with the original tone)
-  #Example: BLOCK_ANVIL_LAND;0.5f;0.5f (its sound a distance of 8 blocks, with a Lower pitch, slower)
+  #How to use Sound;Volume(10);pitch(recommended leave it in 5)
+  #Volume: 0.0 to 1.0, quiet 0, louder 10
+  #Pitch: 0.0 to 1.0, lower pitch 0, higher pitch 10
+  #Example: BLOCK_ANVIL_LAND;10;5 (its sound louder, with the original tone)
+  #Example: BLOCK_ANVIL_LAND;5;1 (its sound normal, with a Lower pitch, slower)
+  #Example: BLOCK_ANVIL_LAND;1;10 (its sound quieter , with a high pitch, faster, probably a chipmunk)
   Spawn: true
   Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;2;4
   Admin-join: true

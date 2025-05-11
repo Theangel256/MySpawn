@@ -8,5 +8,5 @@ public interface CooldownManager
     
     double getCooldown(final UUID p0);
     
-    void setCooldown(final UUID p0, final double p1);
+    void setCooldown(final UUID p0, double p1);
 }

@@ -36,6 +36,7 @@ public class VersionUtils {
             case "BLOCK_LAVA_AMBIENT" -> "LAVA";
             case "ENTITY_WOLF_HOWL" -> "WOLF_HOWL";
             case "ENTITY_WOLF_GROWL" -> "WOLF_GROWL";
+            case "ENTITY_ENDER_DRAGON_GROWL" -> "ENDERDRAGON_GROWL";
             case "ENTITY_ZOMBIE_AMBIENT" -> "ZOMBIE_IDLE";
             case "ENTITY_ZOMBIE_ATTACK_IRON_DOOR" -> "ZOMBIE_METAL";
             case "ENTITY_CREEPER_PRIMED" -> "CREEPER_HISS";
