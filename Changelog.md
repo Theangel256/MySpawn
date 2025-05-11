@@ -13,6 +13,7 @@
 ### Fixes:
 
 - Removed trash lines from the decompiler (2020)
+- Fixes Automatic CI Builds (GitHub Actions) to release the jar file alpha and beta versions
 - Some functions moved to the main class as opposed to duplicate functions
 - Using a never used function lmao
 - Fixed some null pointer exceptions
