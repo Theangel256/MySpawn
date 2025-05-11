@@ -2,48 +2,49 @@ name: Java CI + Release
 
 on:
   push:
-    tags:
-      - '*'  # Ejecuta cuando haces push a un tag
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        java-version: '24'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Get version from pom.xml
-      run: |
-        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Get version from pom.xml
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-    - name: Set release notes from Changelog.md
-      run: |
-        {
-          echo "RELEASE_NOTES<<EOT123"
-          cat Changelog.md
-          echo "EOT123"
-        } >> $GITHUB_ENV
+      - name: Set release notes from Changelog.md
+        run: |
+          {
+            echo "RELEASE_NOTES<<EOT123"
+            cat Changelog.md
+            echo "EOT123"
+          } >> $GITHUB_ENV
 
-    - name: Build with Maven
-      run: mvn clean package -DskipTests
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
 
-    - name: Prepare artifacts
-      run: mkdir staging && cp target/*.jar staging
+      - name: Prepare artifacts
+        run: mkdir staging && cp target/*.jar staging
 
-    - name: Upload Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ env.VERSION }}
-        name: Release ${{ env.VERSION }}
-        body: ${{ env.RELEASE_NOTES }}
-        files: staging/*.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
+          body: ${{ env.RELEASE_NOTES }}
+          files: staging/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
