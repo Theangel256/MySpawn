@@ -57,5 +57,16 @@ jobs:
             -H "Content-Type: application/json" \
             -d "$JSON_PAYLOAD" \
             https://api.github.com/repos/${{ github.repository }}/releases
+          
+          # Extraer el ID del release recién creado
+          RELEASE_ID=$(echo $RESPONSE | jq -r '.id')
+
+          # Subir los archivos .jar a la release
+          for file in staging/*.jar; do
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -F "file=@${file}" \
+              "https://uploads.github.com/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=$(basename $file)"
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
