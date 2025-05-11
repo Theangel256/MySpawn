@@ -40,7 +40,7 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
-          body: ${{ env.CHANGELOG }}
+          body: ${{ env.RELEASE_NOTES }}
           files: staging/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
