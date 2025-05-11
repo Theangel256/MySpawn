@@ -110,11 +110,7 @@ Fireworks:
       - "PURPLE"
       - "WHITE"
     Type: "BURST"
-    # Fireworks trail
-    # Defaults to false if not specified
     Trail: true
-    # Fireworks flicker
-    # Defaults to false if not specified
     Flicker: false
 Permissions:
   Update-check: 'myspawn.update-check'
