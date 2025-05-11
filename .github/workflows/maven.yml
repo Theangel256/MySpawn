@@ -35,6 +35,10 @@ jobs:
         NOTES=$(mvn help:evaluate -Dexpression=version.release.notes -q -DforceStdout)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "NOTES=$NOTES" >> $GITHUB_ENV
+    - name: Create Git tag for release
+      run: |
+        git tag -a "v${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
+        git push origin "v${{ env.VERSION }}"
     - name: Prepare artifacts for upload
       run: mkdir staging && cp target/*.jar staging || true
     - name: Upload artifacts
