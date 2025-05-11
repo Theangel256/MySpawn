@@ -68,7 +68,7 @@ public class Main extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("Spawn")).setExecutor(new Spawn(this));
         Objects.requireNonNull(getCommand("SetSpawn")).setExecutor(new SetSpawn(this));
         Objects.requireNonNull(getCommand("SetFirstSpawn")).setExecutor(new SetFirstSpawn(this));
-        Objects.requireNonNull(getCommand("SetFirweork")).setExecutor(new SetFirework(this));
+        Objects.requireNonNull(getCommand("SetFirework")).setExecutor(new SetFirework(this));
     }
 
     public void RegistrarEventos() {
