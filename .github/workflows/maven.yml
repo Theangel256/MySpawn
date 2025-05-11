@@ -24,7 +24,9 @@ jobs:
         id: version
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          NOTES=$(cat Changelog.md)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          printf "%s" "$NOTES" >> $GITHUB_ENV  # Aquí usamos printf para manejar saltos de línea
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
@@ -37,8 +39,7 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
-          body: |
-            $(cat Changelog.md)
+          body: ${{ env.NOTES }}
           files: staging/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
