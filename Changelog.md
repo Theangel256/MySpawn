@@ -11,8 +11,8 @@
 - Updated config.yml with new options for the fireworks
 
 ### Fixes:
-
 - Removed trash lines from the decompiler (2020)
+- Removed unused imports
 - Fixes Automatic CI Builds (GitHub Actions) to release the jar file alpha and beta versions
 - Some functions moved to the main class as opposed to duplicate functions
 - Using a never used function lmao
