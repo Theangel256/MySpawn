@@ -24,15 +24,13 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Set release notes from Changelog.md
+      - name: Set changelog from Changelog.md
         run: |
           {
-            echo "RELEASE_NOTES<<EOT123"
-            cat Changelog.md
-            echo "EOT123"
-          } >> $GITHUB_ENV
-
+          echo 'CHANGELOG<<EOF'
+          cat Changelog.md
+          echo 'EOF'
+          } >> "$GITHUB_ENV"
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
@@ -44,7 +42,7 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
-          body: ${{ env.RELEASE_NOTES }}
+          body: ${{ env.CHANGELOG }}
           files: staging/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
