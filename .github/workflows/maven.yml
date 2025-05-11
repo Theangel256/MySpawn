@@ -24,9 +24,20 @@ jobs:
         id: version
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          NOTES=$(cat Changelog.md)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          printf "%s" "$NOTES" >> $GITHUB_ENV  # Aquí usamos printf para manejar saltos de línea
+
+      - name: Read Changelog into a temporary file
+        run: |
+          # Lee el contenido de Changelog.md y lo guarda en un archivo temporal
+          cat Changelog.md > changelog.txt
+          # Asegúrate de que el archivo está formateado correctamente
+          cat changelog.txt
+
+      - name: Set release notes
+        run: |
+          # Lee el contenido del archivo temporal y lo pasa como variable
+          RELEASE_NOTES=$(<changelog.txt)
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
