@@ -54,7 +54,7 @@ public class FireworkHandler {
         FireworkEffect.Type effectType;
         String typeStr = config.getString(fireworkConfigPath + ".Type");
         try {
-            effectType = FireworkEffect.Type.valueOf(config.getString(typeStr.toUpperCase()));
+            effectType = FireworkEffect.Type.valueOf(typeStr.toUpperCase());
         } catch (IllegalArgumentException e) {
             String InvalidFireworkType = lang.equalsIgnoreCase("messages_es")
                     ? "&cERROR: Invalid firework type: &e" + typeStr + " &2Using default type."

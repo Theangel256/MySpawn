@@ -19,3 +19,5 @@
 - Fixed some null pointer exceptions
 - Add setfirework command with usage instructions
 - Fixes getCommand SetFirework == null
+- Fixed Firework Type nulleable
+- Fixed maven.yml

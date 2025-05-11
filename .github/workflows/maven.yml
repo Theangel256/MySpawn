@@ -20,14 +20,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Get version from pom.xml
+      - name: Extract version and release notes from pom.xml
+        id: version
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Leer el archivo y convertirlo a un formato que respete saltos de línea
+          RELEASE_NOTES=$(awk 'BEGIN{ORS="\n"} {gsub(/\n/, "\\n"); print $0}' Changelog.md)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Read changelog into variable
-        id: changelog
-        run: |
-          echo "RELEASE_NOTES=$(awk 'BEGIN{ORS="\\n"}{gsub("\"", "\\\""); print}' Changelog.md)" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
