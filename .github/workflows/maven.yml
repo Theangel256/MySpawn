@@ -24,13 +24,11 @@ jobs:
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Set changelog from Changelog.md
+      - name: Read changelog into variable
+        id: changelog
         run: |
-          {
-          echo 'CHANGELOG<<EOF'
-          cat Changelog.md
-          echo 'EOF'
-          } >> "$GITHUB_ENV"
+          echo "RELEASE_NOTES=$(awk 'BEGIN{ORS="\\n"}{gsub("\"", "\\\""); print}' Changelog.md)" >> $GITHUB_ENV
+
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
