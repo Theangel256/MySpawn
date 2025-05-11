@@ -26,12 +26,12 @@ jobs:
         java-version: '24'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build and Verify with Maven
+      run: mvn --batch-mode --update-snapshots verify
+    - name: Prepare artifacts for upload
+      run: mkdir staging && cp target/*.jar staging || true
     - name: Upload artifacts
-    - run: mvn --batch-mode --update-snapshots verify
-    - run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: Package
         path: staging
