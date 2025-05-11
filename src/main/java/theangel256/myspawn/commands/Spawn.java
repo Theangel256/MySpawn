@@ -30,7 +30,13 @@ public class Spawn implements CommandExecutor {
 
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
         final FileConfiguration config = plugin.getConfig();
-        if (sender instanceof Player p) {
+        if (!(sender instanceof Player p)) {
+            String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? " &cNo puedes usar este comando desde la consola"
+                    : " &cYou can not use this command from the console";
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
+            return true;
+        }
             boolean isCooldownEnabled = config.getBoolean("Options.Cooldown", true);
             double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
             double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
@@ -64,13 +70,6 @@ public class Spawn implements CommandExecutor {
                 return true;
             }
             p.sendMessage(color(Main.getMessages().getString("Messages.UndefinedSpawn")));
-        } else {
-            String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
-                    ? " &cNo puedes usar este comando desde la consola"
-                    : " &cYou can not use this command from the console";
-            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
-        }
         return true;
     }
-
 }

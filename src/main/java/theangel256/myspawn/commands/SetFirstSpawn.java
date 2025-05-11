@@ -12,6 +12,8 @@ import theangel256.myspawn.util.LocationManager;
 
 import java.util.Objects;
 
+import static theangel256.myspawn.Main.color;
+
 public class SetFirstSpawn implements CommandExecutor {
     private final Main plugin;
 
@@ -22,15 +24,21 @@ public class SetFirstSpawn implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
 
         final FileConfiguration config = plugin.getConfig();
-        final String setspawn = config.getString("Permissions.Set-FirstSpawn");
-        if (!sender.hasPermission(setspawn)) {
-            String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
-                    ? "&c Necesitas el permiso &a" + setspawn + "&c para acceder al comando"
-                    : "&c You need permission &a" + setspawn + "&c to access the command";
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.nombre + " " + missingReloadPermissions));
+        final String setFirstSpawnPermission = config.getString("Permissions.Set-FirstSpawn");
+        if (!(sender instanceof Player p)) {
+            String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? " &cNo puedes usar este comando desde la consola"
+                    : " &cYou can not use this command from the console";
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
             return true;
         }
-        if (sender instanceof Player p) {
+        if (!sender.hasPermission(setFirstSpawnPermission)) {
+            String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? "&c Necesitas el permiso &a" + setFirstSpawnPermission + "&c para acceder al comando"
+                    : "&c You need permission &a" + setFirstSpawnPermission + "&c to access the command";
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.nombre + " " + missingReloadPermissions));
+            return true;
+        }
             LocationManager spawnCoords1 = LocationManager.getManager();
             spawnCoords1.getConfig().set("FirstSpawn.world", Objects.requireNonNull(p.getLocation().getWorld()).getName());
             spawnCoords1.getConfig().set("FirstSpawn.x", p.getLocation().getX());
@@ -41,11 +49,6 @@ public class SetFirstSpawn implements CommandExecutor {
             spawnCoords1.saveConfig();
             final String setSpawnText = Main.getMessages().getString("Messages.SpawnDefined");
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', setSpawnText));
-        } else if (plugin.lang.equalsIgnoreCase("messages_es")) {
-            Bukkit.getConsoleSender().sendMessage(String.valueOf(plugin.nombre) + ChatColor.RED + " No puedes usar comandos desde la consola");
-        } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
-            Bukkit.getConsoleSender().sendMessage(String.valueOf(plugin.nombre) + ChatColor.RED + " You can not use commands from the console");
-        }
         return true;
     }
 }

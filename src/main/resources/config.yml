@@ -118,4 +118,5 @@ Permissions:
   Reload: 'myspawn.reload'
   Set-Spawn: 'myspawn.setspawn'
   Set-FirstSpawn: 'myspawn.setfirstspawn'
-  Bypass-Cooldown: 'myspawn.bypass-cooldown'
+  Bypass-Cooldown: 'myspawn.cooldown-bypass'
+  Set-Firework: 'myspawn.setfirework'

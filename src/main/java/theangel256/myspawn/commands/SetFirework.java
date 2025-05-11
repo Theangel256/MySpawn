@@ -1,5 +1,7 @@
 package theangel256.myspawn.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,8 +23,20 @@ public class SetFirework implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        final FileConfiguration config = plugin.getConfig();
+        final String setfireworkPermission = config.getString("Permissions.Set-Firework");
         if (!(sender instanceof Player p)) {
-            sender.sendMessage("This command can only be run by a player.");
+            String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? " &cNo puedes usar este comando desde la consola"
+                    : " &cYou can not use this command from the console";
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
+            return true;
+        }
+        if (!p.hasPermission(setfireworkPermission)) {
+            String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? "&c Necesitas el permiso &a" + setfireworkPermission + "&c para acceder al comando"
+                    : "&c You need permission &a" + setfireworkPermission + "&c to access the command";
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.nombre + " " + missingReloadPermissions));
             return true;
         }
 
@@ -45,8 +59,6 @@ public class SetFirework implements CommandExecutor {
             p.sendMessage(color("&cInvalid section. Use: join, spawn, first-join."));
             return true;
         }
-        FileConfiguration config = plugin.getConfig();
-
         try {
             switch (setting) {
                 case "power" -> {
