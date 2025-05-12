@@ -98,34 +98,20 @@ Sounds:
   Void-Fall:
     Enabled: true
     Sound: ENTITY_GENERIC_EXPLODE;7;5
+
 Fireworks:
-  #Fireworks when the player joins
+  # Fireworks when the player joins
   Join:
     Enabled: true
-    # Fireworks power
-    # The power of the fireworks, from 1 to 3
-    Power: 1
-    #Fireworks colors
-    # List of named colors to use
-    # "RED", "GREEN", "BLUE", "YELLOW", "PURPLE", "WHITE", "BLACK", "ORANGE", "PINK", "CYAN", "MAGENTA", "LIME", "LIGHT_BLUE", "BROWN", "LIGHT_GRAY", "GRAY"
-    # You can use the color names or Hexadecimal values
-    #  - "#FF5733"   # Hexadecimal color
-    #  - "RED"       # Named color
-    #  - "#00FF00"   # Hexadecimal color
-    Colors:
+    Power: 1            # Power level (1 to 3)
+    Colors: # List of colors (Named or Hex) RED, GREEN, BLUE, YELLOW, PURPLE, WHITE, BLACK, PINK, ORANGE, CYAN, MAGENTA, LIME, LIGHT_BLUE, BROWN, LIGHT_GRAY, GRAY
       - "RED"
       - "GREEN"
-    # Fireworks type
-    # You can use the type names or the ID
-    # Fireworks Available: - "BALL", "BURST", "STAR", "CREEPER", "BALL_LARGE"
-    Type: "BALL"
-    # Fireworks trail
-    # Defaults to false if not specified
-    Trail: true
-    # Fireworks flicker
-    # Defaults to false if not specified
-    Flicker: false
-  #Fireworks when the player first joins
+    Type: "BALL"        # Type: BALL, BURST, STAR, CREEPER, BALL_LARGE
+    Trail: true         # Whether the firework has a trail effect
+    Flicker: false      # Whether the firework flickers
+
+  # Fireworks on first join
   First-join:
     Enabled: true
     Power: 2
@@ -135,7 +121,8 @@ Fireworks:
     Type: "STAR"
     Trail: true
     Flicker: false
-  #Fireworks when the player uses the /spawn command
+
+  # Fireworks when using /spawn command
   Spawn:
     Enabled: true
     Power: 3
@@ -145,6 +132,7 @@ Fireworks:
     Type: "BURST"
     Trail: true
     Flicker: false
+
 Permissions:
   Update-check: 'myspawn.update-check'
   Admin-join: 'myspawn.admin'

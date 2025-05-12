@@ -51,64 +51,146 @@
 ![](https://fontmeme.com/permalink/190729/1247f66facf111858ae3985d57ff8641.png)
 Config.yml
 
-    #Check for a plugin update 
+    #Check for a plugin update
     Update-check: true
     Options:
-        #LANGUAGES: EN ES
-        Language: 'ES'
-        #Send a message when the player first joins
-        First-join: true
-        #Send a message when the player joins
-        Player-join: true
-        #Send a message when the player leaves
-        Player-quit: true
-        #Send a list of messages when the player joins, example:
-        #- '&m                                             '
-        #- '&6&lWelcome to &c&lserver &a&l{player} '
-        #- '&m                                             '
-        Motd: true
-        #Teleport a player when he first joined
-        Teleport-to-firstjoin: true
-        #Teleport a player when he joins
-        Teleport-to-join: true
-        #Teleport a player when he falls into the void
-        VoidSpawn: true
-        # whitelist or blacklist
-        Worlds-option: 'whitelist'
-        #List of worlds
-        Worlds:
+      #LANGUAGES: EN ES
+      Language: 'EN'
+      #Send a message when the player first joins
+      First-join: true
+      #Send a message when the player joins
+      Player-join: true
+      #Send a message when the player leaves
+      Player-quit: true
+      #Send a list of messages when the player joins, example:
+      #- '&m                                             '
+      #- '&6&lWelcome to &c&lserver &a&l{player}'
+      #- '&m                                             '
+      Motd: true
+      #Teleport a player when he joins for the first time
+      Teleport-to-firstjoin: true
+      #Teleport a player when he joins
+      Teleport-to-join: true
+    # ─────────────── VOID TELEPORT SETTINGS ───────────────
+    # Automatically teleports players to spawn if they fall into the void.
+    # ──────────────────────────────────────────────────────
+
+    Void-Teleport:
+      # Enable or disable void teleport feature
+      Enabled: true
+
+      # Prevents fall damage when teleported from the void
+      No-Damage: true
+
+      # Minimum Y-coordinate before the player is considered falling into the void
+      # Suggested: -15 for 1.8.x — -95 for 1.14+ due to new world generation
+      Trigger-Y-Level: -90
+
+      # Choose whether to use a whitelist or blacklist for allowed worlds
+      # Options: whitelist / blacklist
+      World-Filter-Type: whitelist
+
+      # List of worlds for which void teleport is allowed/blocked (based on filter type above)
+      Filtered-Worlds:
         - world
-        #The amount of blocks before the player falls into the void
-        # Void-fall: -15 for 1.8.x
-        # Void-fall: -95 for 1.14.x+ in this version change due to the new world generation
-        # Try by yourself
-        Void-fall: -95
-        #Time in Seconds - ONLY 1.8.x
-        Spawn-Cooldown: 15
+        - theangel256
+        - donate-me
+    # ─────────────── /SPAWN TELEPORT SETTINGS ───────────────
+    # Controls related to /spawn behavior, damage prevention, and cooldown.
+    # ─────────────────────────────────────────────────────────
+
+    Spawn-Teleport:
+      # Prevents fall damage after using /spawn (e.g., if falling into void)
+      No-Damage: true
+
+      # Enable or disable cooldown for the /spawn command
+      Cooldown-Enabled: true
+
+      # Time in seconds before teleporting the player after using /spawn
+      Cooldown-Time: 15
     Sounds:
-        # You can check here the whole list of minecraft sounds.
-        # 1.8.x - 1.12.x https://pastebin.com/W8ZnDx3V
-        # 1.13.x - 1.14.x https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-        #How to use Sound;Volume(10);pitch(recommended leave it in 2)
-        Spawn: true
-        Spawn-Sound: ENTITY_ENDER_DRAGON_GROWL;3;2
-        Admin-join: true
-        Admin-join-Sound: BLOCK_ANVIL_LAND;10;2
-        Join: true
-        Join-Sound: BLOCK_NOTE_BLOCK_PLING;10;2
-        First-join: true
-        First-join-Sound: WITHER_SPAWN;3;2
-        Voidfall: true
-        Voidfall-Sound: ENTITY_GENERIC_EXPLODE;3;2
+    # ─────────────── SOUND CONFIGURATION GUIDE ───────────────
+    # Check the full list of Minecraft sound names for your version:
+    #   • 1.8.x - 1.12.x → https://pastebin.com/W8ZnDx3V
+    #   • 1.13+          → https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+    #
+    # Format:
+    #   SOUND_NAME;VOLUME;PITCH
+    #
+    # Values:
+    #   ▸ Volume: 1 - 10   (1 = quiet, 10 = loud)
+    #   ▸ Pitch:  1 - 10   (1 = deep/slow, 5 = normal, 10 = high/fast)
+    #
+    # Examples:
+    #   ▸ BLOCK_ANVIL_LAND;10;5 → Loud volume, normal pitch
+    #   ▸ BLOCK_ANVIL_LAND;5;1  → Medium volume, deep pitch (slower)
+    #   ▸ BLOCK_ANVIL_LAND;1;10 → Quiet, high pitch (chipmunk style)
+    # ──────────────────────────────────────────────────────────
+
+      # Sound when using /spawn
+      Spawn:
+        Enabled: true
+        Sound: ENTITY_ENDER_DRAGON_GROWL;7;1
+
+      # Sound when an admin joins the server
+      Admin-Join:
+        Enabled: true
+        Sound: BLOCK_ANVIL_LAND;5;5
+
+      # Sound for all players on join
+      Join:
+        Enabled: true
+        Sound: BLOCK_NOTE_BLOCK_PLING;7;5
+
+      # Sound for a player's first time joining
+      First-Join:
+        Enabled: true
+        Sound: ENTITY_PLAYER_LEVELUP;7;5
+
+      # Sound when a player falls into the void
+      Void-Fall:
+        Enabled: true
+        Sound: ENTITY_GENERIC_EXPLODE;7;5
+
     Fireworks:
-        Join: true
-        First-join: true
-        Spawn: true
+      # Fireworks when the player joins
+      Join:
+        Enabled: true
+        Power: 1 # Power level (1 to 3)
+        Colors:             # List of colors (Named or Hex) RED, GREEN, BLUE, YELLOW, PURPLE, WHITE, BLACK, PINK, ORANGE, CYAN, MAGENTA, LIME, LIGHT_BLUE, BROWN, LIGHT_GRAY, GRAY
+        - "RED"
+        - "GREEN"
+        Type: "BALL"        # Type: BALL, BURST, STAR, CREEPER, BALL_LARGE
+        Trail: true # Whether the firework has a trail effect
+        Flicker: false # Whether the firework flickers
+      # Fireworks on first join
+      First-join:
+        Enabled: true
+        Power: 2
+        Colors:
+        - "BLUE"
+        - "YELLOW"
+        Type: "STAR"
+        Trail: true
+        Flicker: false
+      # Fireworks when using /spawn command
+      Spawn:
+        Enabled: true 
+        Power: 3
+        Colors:
+        - "PURPLE"
+        - "WHITE"
+        Type: "BURST"
+        Trail: true
+        Flicker: false
     Permissions:
-        Update-check: 'myspawn.update-check'
-        Admin-join: 'myspawn.admin'
-        Reload: 'myspawn.reload'
-        Set-Spawn: 'myspawn.setspawn'
+      Update-check: 'myspawn.update-check'
+      Admin-join: 'myspawn.admin'
+      Reload: 'myspawn.reload'
+      Set-Spawn: 'myspawn.setspawn'
+      Set-FirstSpawn: 'myspawn.setfirstspawn'
+      Bypass-Cooldown: 'myspawn.cooldown-bypass'
+      Set-Firework: 'myspawn.setfirework'
 
 Messages_EN.yml
 
