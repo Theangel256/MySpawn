@@ -31,7 +31,9 @@ public class UpdateChecker {
 
     public boolean checkForUpdates(JavaPlugin plugin) throws Exception {
         final URLConnection con = checkURL.openConnection();
-        newVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+            newVersion = reader.readLine();
+        }
         return !plugin.getDescription().getVersion().equals(newVersion);
     }
 }
