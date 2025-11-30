@@ -4,14 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 
 public class VersionUtils {
-    private static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    private static final String BUKKIT_VERSION = Bukkit.getBukkitVersion();
 
     public static String getServerVersion() {
-        return VERSION;
+        return BUKKIT_VERSION;
     }
 
     public static boolean isLegacy() {
-        return VERSION.startsWith("v1_8");
+        return BUKKIT_VERSION.startsWith("1.8") || BUKKIT_VERSION.startsWith("1.7");
     }
 
     public static String suggestLegacySound(String name) {
