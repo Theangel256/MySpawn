@@ -60,8 +60,8 @@ public class Playervoid implements Listener {
             final Location loc = new Location(w, x, y, z, yaw, pitch);
             p.teleport(loc);
             teleported.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLater(plugin, () -> teleported.remove(p.getUniqueId()), 60L); // después de 3
-                                                                                                       // segundos
+            Bukkit.getScheduler().runTaskLater(plugin, () -> teleported.remove(p.getUniqueId()), 60L);
+            // después de 3 segundos
             if (config.getBoolean("Void-Teleport.No-Damage")) {
                 p.setFallDistance(0F);
             }

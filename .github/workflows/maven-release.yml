@@ -76,10 +76,6 @@ jobs:
         files: target/*.jar
         generate_release_notes: false
         body: |
-          ## 💾 Download
-          
-          Download the Java JAR from the resources below.
-
           ${{ steps.changelog.outputs.CHANGELOG }}
           
           ## 🛠️ Build Information
