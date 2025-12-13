@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-
 public class Playervoid implements Listener {
     private final Main plugin;
     private final Set<UUID> teleported = new HashSet<>();
@@ -31,35 +30,45 @@ public class Playervoid implements Listener {
     public void OnPlayerDamage(final PlayerMoveEvent e) {
         final FileConfiguration config = plugin.getConfig();
         final Player p = e.getPlayer();
-        if (e.getFrom().getBlockY() == e.getTo().getBlockY()) return;
-        if (!config.getBoolean("Void-Teleport.Enabled")) return;
-        if (e.getTo().getBlockY() > config.getInt("Void-Teleport.Trigger-Y-Level", -90)) return;
-        if (teleported.contains(p.getUniqueId())) return;
+        if (e.getFrom().getBlockY() == e.getTo().getBlockY())
+            return;
+        if (!config.getBoolean("Void-Teleport.Enabled"))
+            return;
+        if (e.getTo().getBlockY() > config.getInt("Void-Teleport.Trigger-Y-Level", -90))
+            return;
+        if (teleported.contains(p.getUniqueId()))
+            return;
 
-        if (config.getString("Void-Teleport.World-Filter-Type").equals("whitelist") && config.getStringList("Void-Teleport.World-Filter-Type") != null && !config.getStringList("Void-Teleport.Filtered-Worlds").contains(p.getWorld().getName())) {
+        if (config.getString("Void-Teleport.World-Filter-Type").equals("whitelist")
+                && config.getStringList("Void-Teleport.World-Filter-Type") != null
+                && !config.getStringList("Void-Teleport.Filtered-Worlds").contains(p.getWorld().getName())) {
             return;
         }
-        if (config.getString("Void-Teleport.World-Filter-Type").equals("blacklist") && config.getStringList("Void-Teleport.World-Filter-Type") != null && config.getStringList("Void-Teleport.Filtered-Worlds").contains(p.getWorld().getName())) {
+        if (config.getString("Void-Teleport.World-Filter-Type").equals("blacklist")
+                && config.getStringList("Void-Teleport.World-Filter-Type") != null
+                && config.getStringList("Void-Teleport.Filtered-Worlds").contains(p.getWorld().getName())) {
             return;
         }
         final LocationManager spawnCoords = LocationManager.getManager();
-        if (spawnCoords.getConfig().contains("Spawn.x")) {
-            final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-            final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-            final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-            final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-            final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-            final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
+        if (spawnCoords.getSpawnConfig().contains("Spawn.x")) {
+            final World w = Bukkit.getServer().getWorld(spawnCoords.getSpawnConfig().getString("Spawn.world"));
+            final double x = spawnCoords.getSpawnConfig().getDouble("Spawn.x");
+            final double y = spawnCoords.getSpawnConfig().getDouble("Spawn.y");
+            final double z = spawnCoords.getSpawnConfig().getDouble("Spawn.z");
+            final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.yaw");
+            final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.pitch");
             final Location loc = new Location(w, x, y, z, yaw, pitch);
             p.teleport(loc);
             teleported.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLater(plugin, () -> teleported.remove(p.getUniqueId()), 60L); // después de 3 segundos
+            Bukkit.getScheduler().runTaskLater(plugin, () -> teleported.remove(p.getUniqueId()), 60L); // después de 3
+                                                                                                       // segundos
             if (config.getBoolean("Void-Teleport.No-Damage")) {
                 p.setFallDistance(0F);
             }
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getMessages().getString("Messages.Voidfall")));
+            p.sendMessage(
+                    ChatColor.translateAlternateColorCodes('&', Main.getMessages().getString("Messages.Voidfall")));
             if (config.getBoolean("Sounds.Void-Fall.Enabled")) {
-                SoundHandler.playSoundToPlayer(config, "Sounds.Void-Fall", p, plugin.nombre, plugin.lang);
+                SoundHandler.playSoundToPlayer(plugin, config, "Sounds.Void-Fall", p);
             }
         }
     }

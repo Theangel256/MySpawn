@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import theangel256.myspawn.Main;
 import theangel256.myspawn.util.CooldownManager;
-import theangel256.myspawn.util.CraftCooldownManager;
 import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.SoundHandler;
 
@@ -25,10 +24,11 @@ public class Spawn implements CommandExecutor {
 
     public Spawn(final Main plugin) {
         this.plugin = plugin;
-        this.cooldownManager = new CraftCooldownManager(plugin);
+        this.cooldownManager = new CooldownManager(plugin);
     }
 
-    public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
+    public boolean onCommand(final CommandSender sender, final Command comando, final String label,
+            final String[] args) {
         final FileConfiguration config = plugin.getConfig();
         if (!(sender instanceof Player p)) {
             String notAllowedfromConsole = plugin.lang.equalsIgnoreCase("messages_es")
@@ -37,42 +37,43 @@ public class Spawn implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + notAllowedfromConsole));
             return true;
         }
-            boolean isCooldownEnabled = config.getBoolean("Spawn-Teleport.Cooldown-Time", true);
-            double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
-            double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
-            boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
-            if (isCooldownEnabled) {
-                if (cooldownInSeconds < cooldownManager.getDefaultCooldown() && (!canBypassCooldown)) {
-                    String cooldownMessage = Main.getMessages().getString("Messages.Cooldown");
-                    p.sendMessage(color(cooldownMessage).replace("{time}", String.valueOf(cooldownManager.getDefaultCooldown() - cooldownInSeconds)));
-                    return true;
-                }
-            }
-            plugin.saveDefaultConfig();
-            final LocationManager spawnCoords = LocationManager.getManager();
-            if (spawnCoords.getConfig().contains("Spawn.x")) {
-                final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-                final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-                final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-                final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-                final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-                final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
-                final Location loc = new Location(w, x, y, z, yaw, pitch);
-                p.teleport(loc);
-                if (config.getBoolean("Spawn-Teleport.No-Damage")) {
-                    p.setFallDistance(0F);
-                }
-                if (config.getBoolean("Fireworks.Spawn.Enabled")) {
-                    launchFirework(config, "Fireworks.Spawn", p, plugin.nombre, plugin.lang);
-                }
-                if (config.getBoolean("Sounds.Spawn.Enabled")) {
-                    SoundHandler.playSoundToPlayer(config, "Sounds.Spawn", p, plugin.nombre, plugin.lang);
-                }
-                p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));
-                cooldownManager.setCooldown(p.getUniqueId(), (double) System.currentTimeMillis());
+        boolean isCooldownEnabled = config.getBoolean("Spawn-Teleport.Cooldown-Time", true);
+        double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
+        double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
+        boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
+        if (isCooldownEnabled) {
+            if (cooldownInSeconds < cooldownManager.getDefaultCooldown() && (!canBypassCooldown)) {
+                String cooldownMessage = Main.getMessages().getString("Messages.Cooldown");
+                p.sendMessage(color(cooldownMessage).replace("{time}",
+                        String.valueOf(cooldownManager.getDefaultCooldown() - cooldownInSeconds)));
                 return true;
             }
-            p.sendMessage(color(Main.getMessages().getString("Messages.UndefinedSpawn")));
+        }
+        plugin.saveDefaultConfig();
+        final LocationManager spawnCoords = LocationManager.getManager();
+        if (spawnCoords.getSpawnConfig().contains("Spawn.x")) {
+            final World w = Bukkit.getServer().getWorld(spawnCoords.getSpawnConfig().getString("Spawn.world"));
+            final double x = spawnCoords.getSpawnConfig().getDouble("Spawn.x");
+            final double y = spawnCoords.getSpawnConfig().getDouble("Spawn.y");
+            final double z = spawnCoords.getSpawnConfig().getDouble("Spawn.z");
+            final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.yaw");
+            final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.pitch");
+            final Location loc = new Location(w, x, y, z, yaw, pitch);
+            p.teleport(loc);
+            if (config.getBoolean("Spawn-Teleport.No-Damage")) {
+                p.setFallDistance(0F);
+            }
+            if (config.getBoolean("Fireworks.Spawn.Enabled")) {
+                launchFirework(plugin, config, "Fireworks.Spawn", p);
+            }
+            if (config.getBoolean("Sounds.Spawn.Enabled")) {
+                SoundHandler.playSoundToPlayer(plugin, config, "Sounds.Spawn", p);
+            }
+            p.sendMessage(color(Main.getMessages().getString("Messages.Spawn")));
+            cooldownManager.setCooldown(p.getUniqueId(), (double) System.currentTimeMillis());
+            return true;
+        }
+        p.sendMessage(color(Main.getMessages().getString("Messages.UndefinedSpawn")));
         return true;
     }
 }

@@ -1,7 +1,6 @@
 package theangel256.myspawn.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +20,8 @@ public class SetFirstSpawn implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
+    public boolean onCommand(final CommandSender sender, final Command comando, final String label,
+            final String[] args) {
 
         final FileConfiguration config = plugin.getConfig();
         final String setFirstSpawnPermission = config.getString("Permissions.Set-FirstSpawn");
@@ -36,19 +36,20 @@ public class SetFirstSpawn implements CommandExecutor {
             String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
                     ? "&c Necesitas el permiso &a" + setFirstSpawnPermission + "&c para acceder al comando"
                     : "&c You need permission &a" + setFirstSpawnPermission + "&c to access the command";
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.nombre + " " + missingReloadPermissions));
+            p.sendMessage(color(plugin.nombre + " " + missingReloadPermissions));
             return true;
         }
-            LocationManager spawnCoords1 = LocationManager.getManager();
-            spawnCoords1.getConfig().set("FirstSpawn.world", Objects.requireNonNull(p.getLocation().getWorld()).getName());
-            spawnCoords1.getConfig().set("FirstSpawn.x", p.getLocation().getX());
-            spawnCoords1.getConfig().set("FirstSpawn.y", p.getLocation().getY());
-            spawnCoords1.getConfig().set("FirstSpawn.z", p.getLocation().getZ());
-            spawnCoords1.getConfig().set("FirstSpawn.yaw", p.getLocation().getYaw());
-            spawnCoords1.getConfig().set("FirstSpawn.pitch", p.getLocation().getPitch());
-            spawnCoords1.saveConfig();
-            final String setSpawnText = Main.getMessages().getString("Messages.SpawnDefined");
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', setSpawnText));
+        LocationManager spawnCoords1 = LocationManager.getManager();
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.world",
+                Objects.requireNonNull(p.getLocation().getWorld()).getName());
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.x", p.getLocation().getX());
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.y", p.getLocation().getY());
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.z", p.getLocation().getZ());
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.yaw", p.getLocation().getYaw());
+        spawnCoords1.getSpawnConfig().set("FirstSpawn.pitch", p.getLocation().getPitch());
+        spawnCoords1.saveConfig();
+        final String setSpawnText = Main.getMessages().getString("Messages.SpawnDefined");
+        p.sendMessage(color(setSpawnText));
         return true;
     }
 }

@@ -1,7 +1,7 @@
 package theangel256.myspawn.util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import theangel256.myspawn.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,7 +14,7 @@ public class UpdateChecker {
     private String newVersion;
     private URL checkURL;
 
-    public UpdateChecker(JavaPlugin plugin, final int projectID) {
+    public UpdateChecker(Main plugin, final int projectID) {
         project = projectID;
         newVersion = plugin.getDescription().getVersion();
         try {
@@ -29,7 +29,7 @@ public class UpdateChecker {
         return "https://spigotmc.org/resources/" + project;
     }
 
-    public boolean checkForUpdates(JavaPlugin plugin) throws Exception {
+    public boolean checkForUpdates(Main plugin) throws Exception {
         final URLConnection con = checkURL.openConnection();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
             newVersion = reader.readLine();

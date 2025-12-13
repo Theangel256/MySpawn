@@ -1,7 +1,6 @@
 package theangel256.myspawn.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,12 +35,13 @@ public class SetFirework implements CommandExecutor {
             String missingReloadPermissions = plugin.lang.equalsIgnoreCase("messages_es")
                     ? "&c Necesitas el permiso &a" + setfireworkPermission + "&c para acceder al comando"
                     : "&c You need permission &a" + setfireworkPermission + "&c to access the command";
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.nombre + " " + missingReloadPermissions));
+            p.sendMessage(color(plugin.nombre + " " + missingReloadPermissions));
             return true;
         }
 
         if (args.length < 3) {
-            p.sendMessage(color("&cUsage: /setfirework <join|spawn|first-join> <power|color|type|trail|flicker> <value>"));
+            p.sendMessage(
+                    color("&cUsage: /setfirework <join|spawn|first-join> <power|color|type|trail|flicker> <value>"));
             return true;
         }
 

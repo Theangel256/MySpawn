@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import theangel256.myspawn.commands.*;
+import theangel256.myspawn.events.FireworkDamage;
 import theangel256.myspawn.events.Join;
 import theangel256.myspawn.events.Playervoid;
 import theangel256.myspawn.events.Quit;
@@ -15,11 +16,9 @@ import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.PluginConfig;
 import theangel256.myspawn.util.UpdateChecker;
 
-import java.io.File;
 import java.util.Objects;
 
 public class Main extends JavaPlugin implements Listener {
-    private static PluginConfig Messages;
     PluginDescriptionFile pdffile;
     FileConfiguration config;
     public String rutaConfig;
@@ -38,20 +37,23 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         RegistrarComandos();
         RegistrarEventos();
-        RegistrarConfig();
         LocationManager.getManager().setupFiles();
         LocationManager.getManager().reloadConfig();
-        Main.Messages = new PluginConfig(this, "Messages_" + config.getString("Options.Language"));
         if (config.getBoolean("Update-check")) {
             final UpdateChecker updater = new UpdateChecker(this, 64762);
             try {
                 if (updater.checkForUpdates(this)) {
                     if (lang.equalsIgnoreCase("messages_es")) {
-                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &aNueva version disponible."));
-                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
+                        Bukkit.getConsoleSender()
+                                .sendMessage(color(nombre + " &aNueva version disponible."));
+                        Bukkit.getConsoleSender()
+                                .sendMessage(color(nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
                     } else if (lang.equalsIgnoreCase("messages_en")) {
-                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &aNew version available."));
-                        Bukkit.getConsoleSender().sendMessage(color(nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
+                        Bukkit.getConsoleSender()
+                                .sendMessage(color(nombre + " &aNew version available."));
+                        Bukkit.getConsoleSender()
+                                .sendMessage(
+                                        color(nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
                     }
                 }
             } catch (Exception e) {
@@ -76,19 +78,11 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new Join(this), this);
         pm.registerEvents(new Quit(this), this);
         pm.registerEvents(new Playervoid(this), this);
-    }
-
-    public void RegistrarConfig() {
-        final File config = new File(getDataFolder(), "config.yml");
-        rutaConfig = config.getPath();
-        if (!config.exists()) {
-            getConfig().options().copyDefaults(true);
-            saveDefaultConfig();
-        }
+        pm.registerEvents(new FireworkDamage(), this);
     }
 
     public static PluginConfig getMessages() {
-        return Main.Messages;
+        return LocationManager.getManager().getMessagesConfig();
     }
 
     public static String color(String msg) {

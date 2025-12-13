@@ -1,0 +1,102 @@
+name: 🚀 Build and Release Java
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: 🏗️ Build Java JAR
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for changelog
+
+    - name: ☕ Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: 📦 Build with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: 📤 Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: MySpawn-Jar-${{ github.ref_name }}
+        path: target/*.jar
+        retention-days: 90
+
+    - name: 📝 Generate Changelog
+      id: changelog
+      shell: bash
+      run: |
+        title="CI build ${{ github.ref_name }}"
+        tag="${{ github.ref_name }}"
+        
+        # Try to find the previous tag
+        if git describe --tags --abbrev=0 "$tag^" >/dev/null 2>&1; then
+          previousTag=$(git describe --tags --abbrev=0 "$tag^")
+          commits=$(git log "$previousTag..$tag" --pretty=format:"- %s (%h)" --no-merges)
+        else
+          # If no previous tag, just log the current tag
+          commits=$(git log "$tag" --pretty=format:"- %s (%h)" --no-merges)
+        fi
+        
+        changelog="## 📋 Changelog
+        
+        $commits"
+        
+        # Save to file for release notes (optional, but good for debugging)
+        echo "$changelog" > changelog.txt
+        
+        # Output for GitHub Actions
+        echo "title=$title" >> $GITHUB_OUTPUT
+        
+        # Multiline string for GITHUB_OUTPUT
+        echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+        echo "$changelog" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: 🎉 Create Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        name: ${{ steps.changelog.outputs.title }}
+        files: target/*.jar
+        generate_release_notes: false
+        body: |
+          ## 💾 Download
+          
+          Download the Java JAR from the resources below.
+
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ## 🛠️ Build Information
+          
+          - **Platform**: Java (Cross-platform)
+          - **Java Version**: 17
+          - **Build**: #${{ github.run_number }}
+          - **Commit**: ${{ github.sha }}
+          
+          ## 📖 How to use
+          
+          1. Download the `.jar` file.
+          2. Place it in your server's `plugins` folder.
+          3. Restart the server.
+          
+          ---
+          
+          **Note**: This plugin requires a Spigot/Paper server compatible with the API version specified.
+        draft: false
+        prerelease: false

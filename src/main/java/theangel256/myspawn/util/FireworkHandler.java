@@ -8,6 +8,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.metadata.FixedMetadataValue;
+import theangel256.myspawn.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +17,18 @@ import java.util.List;
 import static theangel256.myspawn.Main.color;
 
 public class FireworkHandler {
-    public static void launchFirework(FileConfiguration config, String fireworkConfigPath, Player p, String pluginName, String lang) {
+    public static void launchFirework(Main plugin, FileConfiguration config, String fireworkConfigPath, Player p) {
         // If fireworks are not enabled for the specified event, return
-        if (!config.getBoolean(fireworkConfigPath + ".Enabled")) return;
+        if (!config.getBoolean(fireworkConfigPath + ".Enabled"))
+            return;
         // Power
         int power = config.getInt(fireworkConfigPath + ".Power");
         if (power < 0 || power > 3) {
-            String invalidPower = lang.equalsIgnoreCase("messages_es")
-                    ? "&cERROR: Potencia de fuegos artificiales inválida &e" + power + "&c Usando valor por defecto (1)."
+            String invalidPower = plugin.lang.equalsIgnoreCase("messages_es")
+                    ? "&cERROR: Potencia de fuegos artificiales inválida &e" + power
+                            + "&c Usando valor por defecto (1)."
                     : "&cERROR: Invalid firework power &e" + power + "&c Using default value (1).";
-            Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + invalidPower));
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + invalidPower));
             power = 1;
         }
         // Colors
@@ -36,13 +40,14 @@ public class FireworkHandler {
                 if (colorStr.startsWith("#")) {
                     colors.add(hexToColorRGB(colorStr));
                 } else {
-                    colors.add(getNamedColor(colorStr, pluginName));
+                    colors.add(getNamedColor(colorStr));
                 }
             } catch (Exception e) {
-                String InvalidFireworkColor = lang.equalsIgnoreCase("messages_es")
+                String InvalidFireworkColor = plugin.lang.equalsIgnoreCase("messages_es")
                         ? "&cERROR: Invalid firework color: &e" + colorStr + " &2Using default color."
-                        : "&cERROR: El color para los fuegos artificales &e" + colorStr + "&c no es valido. Usando color por defecto.";
-                Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + InvalidFireworkColor));
+                        : "&cERROR: El color para los fuegos artificales &e" + colorStr
+                                + "&c no es valido. Usando color por defecto.";
+                Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + InvalidFireworkColor));
             }
         }
         // Fallback color
@@ -56,10 +61,11 @@ public class FireworkHandler {
         try {
             effectType = FireworkEffect.Type.valueOf(typeStr.toUpperCase());
         } catch (IllegalArgumentException e) {
-            String InvalidFireworkType = lang.equalsIgnoreCase("messages_es")
+            String InvalidFireworkType = plugin.lang.equalsIgnoreCase("messages_es")
                     ? "&cERROR: Invalid firework type: &e" + typeStr + " &2Using default type."
-                    : "&cERROR: El tipo de fuegos artificales &e" + typeStr + "&c no es valido. Usando el tipo por defecto.";
-            Bukkit.getConsoleSender().sendMessage(color(pluginName + " " + InvalidFireworkType));
+                    : "&cERROR: El tipo de fuegos artificales &e" + typeStr
+                            + "&c no es valido. Usando el tipo por defecto.";
+            Bukkit.getConsoleSender().sendMessage(color(plugin.nombre + " " + InvalidFireworkType));
             effectType = FireworkEffect.Type.BALL; // Default to BALL if the type is invalid
         }
         // Effects: Trail and Flicker
@@ -81,9 +87,13 @@ public class FireworkHandler {
 
         meta.addEffect(effectBuilder.build());
         firework.setFireworkMeta(meta);
+
+        if (config.getBoolean(fireworkConfigPath + ".No-Damage", false)) {
+            firework.setMetadata("myspawn_nodamage", new FixedMetadataValue(plugin, true));
+        }
     }
 
-    private static Color getNamedColor(String colorName, String pluginName) {
+    private static Color getNamedColor(String colorName) {
         return switch (colorName.toUpperCase()) {
             case "BLACK" -> Color.BLACK;
             case "RED" -> Color.RED;
@@ -102,7 +112,8 @@ public class FireworkHandler {
             case "LIGHT_GRAY" -> Color.fromRGB(211, 211, 211); // Custom RGB for LIGHT_GRAY
             case "GRAY" -> Color.GRAY;
             default ->
-                    throw new IllegalArgumentException("Unknown color name: " + pluginName); // Si no se encuentra el color, retorna null
+                throw new IllegalArgumentException("Unknown color name: " + colorName); // Si no se encuentra el color,
+                                                                                        // retorna null
         };
     }
 
@@ -110,7 +121,7 @@ public class FireworkHandler {
         return Color.fromRGB(
                 Integer.valueOf(hex.substring(1, 3), 16), // Rojo
                 Integer.valueOf(hex.substring(3, 5), 16), // Verde
-                Integer.valueOf(hex.substring(5, 7), 16)  // Azul
+                Integer.valueOf(hex.substring(5, 7), 16) // Azul
         );
     }
 }

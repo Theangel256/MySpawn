@@ -21,7 +21,8 @@ public class Quit implements Listener {
         final String quitText = Main.getMessages().getString("Messages.Player-quit");
         event.setQuitMessage(null);
         if (config.getBoolean("Options.Player-quit")) {
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', quitText).replace("{player}", event.getPlayer().getName()));
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', quitText).replace("{player}",
+                    event.getPlayer().getName()));
         }
     }
 }

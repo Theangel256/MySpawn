@@ -11,7 +11,9 @@ public class VersionUtils {
     }
 
     public static boolean isLegacy() {
-        return BUKKIT_VERSION.startsWith("1.8") || BUKKIT_VERSION.startsWith("1.7");
+        return BUKKIT_VERSION.startsWith("1.7") || BUKKIT_VERSION.startsWith("1.8")
+                || BUKKIT_VERSION.startsWith("1.9") || BUKKIT_VERSION.startsWith("1.10")
+                || BUKKIT_VERSION.startsWith("1.11") || BUKKIT_VERSION.startsWith("1.12");
     }
 
     public static String suggestLegacySound(String name) {

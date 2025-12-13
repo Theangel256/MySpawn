@@ -41,18 +41,18 @@ public class Join implements Listener {
             }
         }
         if (adminJoinSoundEnabled && isAdmin) {
-            SoundHandler.playSoundToPlayer(config, "Sounds.Admin-Join", p, plugin.nombre, plugin.lang);
+            SoundHandler.playSoundToPlayer(plugin, config, "Sounds.Admin-Join", p);
         }
         if (p.hasPlayedBefore()) {
             if (config.getBoolean("Options.Teleport-to-join")) {
                 final LocationManager spawnCoords = LocationManager.getManager();
-                if (spawnCoords.getConfig().contains("Spawn.x")) {
-                    final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("Spawn.world"));
-                    final double x = spawnCoords.getConfig().getDouble("Spawn.x");
-                    final double y = spawnCoords.getConfig().getDouble("Spawn.y");
-                    final double z = spawnCoords.getConfig().getDouble("Spawn.z");
-                    final float yaw = (float) spawnCoords.getConfig().getDouble("Spawn.yaw");
-                    final float pitch = (float) spawnCoords.getConfig().getDouble("Spawn.pitch");
+                if (spawnCoords.getSpawnConfig().contains("Spawn.x")) {
+                    final World w = Bukkit.getServer().getWorld(spawnCoords.getSpawnConfig().getString("Spawn.world"));
+                    final double x = spawnCoords.getSpawnConfig().getDouble("Spawn.x");
+                    final double y = spawnCoords.getSpawnConfig().getDouble("Spawn.y");
+                    final double z = spawnCoords.getSpawnConfig().getDouble("Spawn.z");
+                    final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.yaw");
+                    final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.pitch");
                     final Location loc = new Location(w, x, y, z, yaw, pitch);
                     p.teleport(loc);
                 }
@@ -63,22 +63,23 @@ public class Join implements Listener {
                 Bukkit.broadcastMessage(color(joinText).replace("{player}", p.getName()));
             }
             if (config.getBoolean("Fireworks.Join.Enabled")) {
-                launchFirework(config, "Fireworks.Join", p, plugin.nombre, plugin.lang);
+                launchFirework(plugin, config, "Fireworks.Join", p);
             }
             if (joinSoundEnabled && !isAdmin) {
-                SoundHandler.playSoundToPlayer(config, "Sounds.Join", p, plugin.nombre, plugin.lang);
+                SoundHandler.playSoundToPlayer(plugin, config, "Sounds.Join", p);
             }
 
         } else {
             if (config.getBoolean("Options.Teleport-to-firstjoin")) {
                 final LocationManager spawnCoords = LocationManager.getManager();
-                if (spawnCoords.getConfig().contains("FirstSpawn.x")) {
-                    final World w = Bukkit.getServer().getWorld(spawnCoords.getConfig().getString("FirstSpawn.world"));
-                    final double x = spawnCoords.getConfig().getDouble("FirstSpawn.x");
-                    final double y = spawnCoords.getConfig().getDouble("FirstSpawn.y");
-                    final double z = spawnCoords.getConfig().getDouble("FirstSpawn.z");
-                    final float yaw = (float) spawnCoords.getConfig().getDouble("FirstSpawn.yaw");
-                    final float pitch = (float) spawnCoords.getConfig().getDouble("FirstSpawn.pitch");
+                if (spawnCoords.getSpawnConfig().contains("FirstSpawn.x")) {
+                    final World w = Bukkit.getServer()
+                            .getWorld(spawnCoords.getSpawnConfig().getString("FirstSpawn.world"));
+                    final double x = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.x");
+                    final double y = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.y");
+                    final double z = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.z");
+                    final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.yaw");
+                    final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.pitch");
                     final Location loc = new Location(w, x, y, z, yaw, pitch);
                     p.teleport(loc);
                 }
@@ -89,10 +90,10 @@ public class Join implements Listener {
                 Bukkit.broadcastMessage(color(joinFirstText).replace("{player}", p.getName()));
             }
             if (config.getBoolean("Fireworks.First-join.Enabled")) {
-                launchFirework(config, "Fireworks.First-join", p, plugin.nombre, plugin.lang);
+                launchFirework(plugin, config, "Fireworks.First-join", p);
             }
             if (firstJoinSoundEnabled) {
-                SoundHandler.playSoundToPlayer(config, "Sounds.First-Join", p, plugin.nombre, plugin.lang);
+                SoundHandler.playSoundToPlayer(plugin, config, "Sounds.First-Join", p);
             }
         }
         final String updatePermission = config.getString("Permissions.Update-check");
@@ -103,10 +104,12 @@ public class Join implements Listener {
                     if (updater.checkForUpdates(plugin)) {
                         if (plugin.lang.equalsIgnoreCase("messages_es")) {
                             p.sendMessage(color(plugin.nombre + " &aNueva version disponible."));
-                            p.sendMessage(color(plugin.nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
+                            p.sendMessage(
+                                    color(plugin.nombre + " &ePuedes descargarlo en: &f" + updater.getResourceUrl()));
                         } else if (plugin.lang.equalsIgnoreCase("messages_en")) {
                             p.sendMessage(color(plugin.nombre + " &aNew version available."));
-                            p.sendMessage(color(plugin.nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
+                            p.sendMessage(
+                                    color(plugin.nombre + " &eYou can download it in: &f" + updater.getResourceUrl()));
                         }
                     }
                 } catch (Exception e) {

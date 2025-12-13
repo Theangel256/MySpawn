@@ -16,7 +16,8 @@ public class Principal implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    public boolean onCommand(final CommandSender sender, final Command comando, final String label, final String[] args) {
+    public boolean onCommand(final CommandSender sender, final Command comando, final String label,
+            final String[] args) {
         final FileConfiguration config = plugin.getConfig();
         final String reload = config.getString("Permissions.Reload");
 
@@ -63,7 +64,6 @@ public class Principal implements CommandExecutor {
                 return true;
             }
             LocationManager.getManager().reloadConfig();
-            plugin.reloadConfig();
             String sucessmsg = plugin.lang.equalsIgnoreCase("messages_es")
                     ? "&2 El plugin ha sido recargado correctamente"
                     : "&2 The plugin has been correctly reloaded";

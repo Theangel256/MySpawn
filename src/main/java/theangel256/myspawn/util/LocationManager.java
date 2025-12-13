@@ -13,6 +13,7 @@ public class LocationManager {
     private final Main plugin;
     public File location;
     public YamlConfiguration spawnCoords;
+    private PluginConfig messagesConfig;
     private static final LocationManager manager = new LocationManager();
 
     private LocationManager() {
@@ -24,12 +25,14 @@ public class LocationManager {
     }
 
     public void setupFiles() {
+        // Spawn.yml setup
         location = new File(plugin.getDataFolder(), "Spawn.yml");
         if (!location.exists()) {
             File parentDir = location.getParentFile();
             if (!parentDir.exists() && !parentDir.mkdirs()) {
-                plugin.getLogger().warning("No se pudo crear el directorio para Spawn.yml en: " + parentDir.getAbsolutePath());
-                return; // evita continuar si no se puede crear la carpeta
+                plugin.getLogger()
+                        .warning("No se pudo crear el directorio para Spawn.yml en: " + parentDir.getAbsolutePath());
+                return;
             }
             plugin.saveResource("Spawn.yml", false);
         }
@@ -39,10 +42,22 @@ public class LocationManager {
         } catch (IOException | InvalidConfigurationException ex) {
             plugin.getLogger().log(Level.SEVERE, "Error al cargar Spawn.yml", ex);
         }
+
+        // Messages setup
+        String lang = plugin.getConfig().getString("Options.Language", "EN");
+        messagesConfig = new PluginConfig(plugin, "Messages_" + lang);
     }
 
-    public FileConfiguration getConfig() {
+    public FileConfiguration getSpawnConfig() {
         return spawnCoords;
+    }
+
+    public FileConfiguration getMainConfig() {
+        return plugin.getConfig();
+    }
+
+    public PluginConfig getMessagesConfig() {
+        return messagesConfig;
     }
 
     public void saveConfig() {
@@ -59,10 +74,25 @@ public class LocationManager {
     }
 
     public void reloadConfig() {
+        // Reload Spawn.yml
         if (location == null || !location.exists()) {
             plugin.getLogger().warning("No se puede recargar Spawn.yml: archivo no encontrado.");
-            return;
+        } else {
+            spawnCoords = YamlConfiguration.loadConfiguration(location);
         }
-        spawnCoords = YamlConfiguration.loadConfiguration(location);
+
+        // Reload config.yml
+        plugin.reloadConfig();
+
+        // Reload Messages
+        String newLang = plugin.getConfig().getString("Options.Language", "EN");
+        plugin.lang = "Messages_" + newLang; // Update Main.lang field
+
+        // Check if language changed or just reload current
+        if (!messagesConfig.getFile().getName().equals("Messages_" + newLang + ".yml")) {
+            messagesConfig = new PluginConfig(plugin, "Messages_" + newLang);
+        } else {
+            messagesConfig.reload();
+        }
     }
 }

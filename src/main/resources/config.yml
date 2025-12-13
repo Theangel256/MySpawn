@@ -110,6 +110,7 @@ Fireworks:
     Type: "BALL"        # Type: BALL, BURST, STAR, CREEPER, BALL_LARGE
     Trail: true         # Whether the firework has a trail effect
     Flicker: false      # Whether the firework flickers
+    No-Damage: true     # Whether the firework deals damage
 
   # Fireworks on first join
   First-join:
@@ -121,6 +122,7 @@ Fireworks:
     Type: "STAR"
     Trail: true
     Flicker: false
+    No-Damage: true
 
   # Fireworks when using /spawn command
   Spawn:
@@ -132,6 +134,7 @@ Fireworks:
     Type: "BURST"
     Trail: true
     Flicker: false
+    No-Damage: true
 
 Permissions:
   Update-check: 'myspawn.update-check'
