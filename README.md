@@ -1,6 +1,9 @@
-# MySpawn Plugin
-
-## **Thanks for 150K DOWNLOADS??!!**
+<p align="center">
+   <a href="https://github.com/Theangel256/MySpawn/releases">
+    <img src="https://github.com/user-attachments/assets/7e1fcc6f-2b6d-45c1-9a84-3843c1428242" width="128" height="128">
+    <h1 align="center">Thanks for 150K DOWNLOADS??!!</h1>
+   </a>
+</p>
 
 ![Features](https://i.imgur.com/Y7OmghT.png)
 
