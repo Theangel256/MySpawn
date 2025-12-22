@@ -79,6 +79,8 @@
     Teleport-to-firstjoin: true
     #Teleport a player when he joins
     Teleport-to-join: true
+    #Teleport a player when he respawns
+    Teleport-to-respawn: true
   # ─────────────── VOID TELEPORT SETTINGS ───────────────
   # Automatically teleports players to spawn if they fall into the void.
   # ──────────────────────────────────────────────────────
@@ -219,14 +221,35 @@
       - '&m                                             '
       - '&6&lWelcome to &c&lserver &a&l{player}'
       - '&m                                             '
-    SpawnDefined: '&aspawn defined correctly'
-    UndefinedSpawn: '&cthere is no server spawn'
-    Spawn: '&ayou have been teleported'
+    SpawnDefined: '&aSpawn defined correctly'
+    UndefinedSpawn: '&cThere is no spawn defined'
+    Spawn: '&aYou have been teleported to spawn'
     Player-join: '&6{player} joined the server!'
-    Player-quit: '&6{player} left the server!'
+    Player-quit: '&6{player} left the server'
     First-join: '&dWelcome {player} to the server, give him the welcome'
     Voidfall: '&c&lWARNING: &7Do not fall'
-    Cooldown: '&cYou must wait &e{time} &cto execute this command'
+    Cooldown: '&cYou must wait &e{time}s &cto execute this command'
+  ```
+
+</details>
+
+<details name="Messages_ES.yml">
+<summary>Messages_ES.yml</summary>
+  
+  ```yaml
+  Messages:
+    Motd:
+      - '&m                                             '
+      - '&6&lBienvenido al &c&lservidor &a&l{player}'
+      - '&m                                             '
+    SpawnDefined: '&aSpawn definido correctamente'
+    UndefinedSpawn: '&cNo hay spawn definido'
+    Spawn: '&aHas sido teletransportado'
+    Player-join: '&6{player} se unio al servidor!'
+    Player-quit: '&6{player} dejo el servidor'
+    First-join: '&dBienvenido {player} al servidor, dale la bienvenida'
+    Voidfall: '&c&lCUIDADO: &7No caigas'
+    Cooldown: '&cDebes esperar &e{time}s &cpara ejecutar este comando'
   ```
   
 </details>
