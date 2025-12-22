@@ -18,6 +18,8 @@ Options:
   Teleport-to-firstjoin: true
   #Teleport a player when he joins
   Teleport-to-join: true
+  #Teleport a player when he respawns
+  Teleport-to-respawn: true
 # ─────────────── VOID TELEPORT SETTINGS ───────────────
 # Automatically teleports players to spawn if they fall into the void.
 # ──────────────────────────────────────────────────────

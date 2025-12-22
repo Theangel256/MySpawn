@@ -13,8 +13,6 @@ import theangel256.myspawn.util.CooldownManager;
 import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.SoundHandler;
 
-import java.util.concurrent.TimeUnit;
-
 import static theangel256.myspawn.Main.color;
 import static theangel256.myspawn.util.FireworkHandler.launchFirework;
 
@@ -38,14 +36,13 @@ public class Spawn implements CommandExecutor {
             return true;
         }
         boolean isCooldownEnabled = config.getBoolean("Spawn-Teleport.Cooldown-Time", true);
-        double timeLeft = System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId());
-        double cooldownInSeconds = TimeUnit.MILLISECONDS.toSeconds((long) timeLeft);
+        double timeLeft = (System.currentTimeMillis() - cooldownManager.getCooldown(p.getUniqueId())) / 1000.0;
         boolean canBypassCooldown = p.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
         if (isCooldownEnabled) {
-            if (cooldownInSeconds < cooldownManager.getDefaultCooldown() && (!canBypassCooldown)) {
+            if (timeLeft < cooldownManager.getDefaultCooldown() && (!canBypassCooldown)) {
                 String cooldownMessage = Main.getMessages().getString("Messages.Cooldown");
-                p.sendMessage(color(cooldownMessage).replace("{time}",
-                        String.valueOf(cooldownManager.getDefaultCooldown() - cooldownInSeconds)));
+                String remainingTime = String.format("%.1f", cooldownManager.getDefaultCooldown() - timeLeft);
+                p.sendMessage(color(cooldownMessage).replace("{time}", remainingTime));
                 return true;
             }
         }

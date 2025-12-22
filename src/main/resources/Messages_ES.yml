@@ -10,4 +10,4 @@ Messages:
   Player-quit: '&6{player} dejo el servidor!'
   First-join: '&dBienvenido {player} al servidor, dale la bienvenida.'
   Voidfall: '&c&lCuidado: &7No te caigas'
-  Cooldown: '&cDebes Esperar &e{time} &cpara ejecutar este comando'
+  Cooldown: '&cDebes Esperar &e{time}s &cpara ejecutar este comando'

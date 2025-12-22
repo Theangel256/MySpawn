@@ -12,6 +12,7 @@ import theangel256.myspawn.events.FireworkDamage;
 import theangel256.myspawn.events.Join;
 import theangel256.myspawn.events.Playervoid;
 import theangel256.myspawn.events.Quit;
+import theangel256.myspawn.events.Respawn;
 import theangel256.myspawn.util.LocationManager;
 import theangel256.myspawn.util.PluginConfig;
 import theangel256.myspawn.util.UpdateChecker;
@@ -79,6 +80,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new Quit(this), this);
         pm.registerEvents(new Playervoid(this), this);
         pm.registerEvents(new FireworkDamage(), this);
+        pm.registerEvents(new Respawn(this), this);
     }
 
     public static PluginConfig getMessages() {

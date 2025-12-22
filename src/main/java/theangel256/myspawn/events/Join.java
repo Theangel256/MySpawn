@@ -75,13 +75,27 @@ public class Join implements Listener {
                 if (spawnCoords.getSpawnConfig().contains("FirstSpawn.x")) {
                     final World w = Bukkit.getServer()
                             .getWorld(spawnCoords.getSpawnConfig().getString("FirstSpawn.world"));
-                    final double x = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.x");
-                    final double y = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.y");
-                    final double z = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.z");
-                    final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.yaw");
-                    final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.pitch");
-                    final Location loc = new Location(w, x, y, z, yaw, pitch);
-                    p.teleport(loc);
+                    if (w != null) {
+                        final double x = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.x");
+                        final double y = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.y");
+                        final double z = spawnCoords.getSpawnConfig().getDouble("FirstSpawn.z");
+                        final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.yaw");
+                        final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("FirstSpawn.pitch");
+                        final Location loc = new Location(w, x, y, z, yaw, pitch);
+                        p.teleport(loc);
+                    }
+                } else if (spawnCoords.getSpawnConfig().contains("Spawn.x")) {
+                    final World w = Bukkit.getServer()
+                            .getWorld(spawnCoords.getSpawnConfig().getString("Spawn.world"));
+                    if (w != null) {
+                        final double x = spawnCoords.getSpawnConfig().getDouble("Spawn.x");
+                        final double y = spawnCoords.getSpawnConfig().getDouble("Spawn.y");
+                        final double z = spawnCoords.getSpawnConfig().getDouble("Spawn.z");
+                        final float yaw = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.yaw");
+                        final float pitch = (float) spawnCoords.getSpawnConfig().getDouble("Spawn.pitch");
+                        final Location loc = new Location(w, x, y, z, yaw, pitch);
+                        p.teleport(loc);
+                    }
                 }
             }
             if (config.getBoolean("Options.First-join")) {
