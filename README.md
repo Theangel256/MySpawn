@@ -212,8 +212,8 @@
     
 </details>
 
-<details name="Messages_EN.yml">
-<summary>Messages_EN.yml</summary>
+<details name="messages_en.yml">
+<summary>messages_en.yml</summary>
   
   ```yaml
   Messages:
@@ -233,8 +233,8 @@
 
 </details>
 
-<details name="Messages_ES.yml">
-<summary>Messages_ES.yml</summary>
+<details name="messages_es.yml">
+<summary>messages_es.yml</summary>
   
   ```yaml
   Messages:

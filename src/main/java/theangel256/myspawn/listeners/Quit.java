@@ -1,4 +1,4 @@
-package theangel256.myspawn.events;
+package theangel256.myspawn.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

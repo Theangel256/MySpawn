@@ -1,4 +1,4 @@
-package theangel256.myspawn.util;
+package theangel256.myspawn.utils;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,27 +25,28 @@ public class LocationManager {
     }
 
     public void setupFiles() {
-        // Spawn.yml setup
-        location = new File(plugin.getDataFolder(), "Spawn.yml");
+        // locations.yml setup
+        location = new File(plugin.getDataFolder(), "locations.yml");
         if (!location.exists()) {
             File parentDir = location.getParentFile();
             if (!parentDir.exists() && !parentDir.mkdirs()) {
                 plugin.getLogger()
-                        .warning("No se pudo crear el directorio para Spawn.yml en: " + parentDir.getAbsolutePath());
+                        .warning(
+                                "No se pudo crear el directorio para locations.yml en: " + parentDir.getAbsolutePath());
                 return;
             }
-            plugin.saveResource("Spawn.yml", false);
+            plugin.saveResource("locations.yml", false);
         }
         spawnCoords = new YamlConfiguration();
         try {
             spawnCoords.load(location);
         } catch (IOException | InvalidConfigurationException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Error al cargar Spawn.yml", ex);
+            plugin.getLogger().log(Level.SEVERE, "Error al cargar locations.yml", ex);
         }
 
         // Messages setup
-        String lang = plugin.getConfig().getString("Options.Language", "EN");
-        messagesConfig = new PluginConfig(plugin, "Messages_" + lang);
+        String lang = plugin.getConfig().getString("Options.Language", "EN").toLowerCase();
+        messagesConfig = new PluginConfig(plugin, "messages_" + lang);
     }
 
     public FileConfiguration getSpawnConfig() {
@@ -62,35 +63,48 @@ public class LocationManager {
 
     public void saveConfig() {
         if (spawnCoords == null || location == null) {
-            plugin.getLogger().warning("No se puede guardar Spawn.yml: archivo o configuración no inicializados.");
+            plugin.getLogger().warning("No se puede guardar locations.yml: archivo o configuración no inicializados.");
             return;
         }
         try {
             spawnCoords.save(location);
         } catch (IOException ex) {
-            plugin.getLogger().severe("Error al guardar Spawn.yml en: " + location.getAbsolutePath());
+            plugin.getLogger().severe("Error al guardar locations.yml en: " + location.getAbsolutePath());
             plugin.getLogger().log(Level.SEVERE, "Detalles del error:", ex);
         }
     }
 
     public void reloadConfig() {
-        // Reload Spawn.yml
+        // Reload locations.yml
         if (location == null || !location.exists()) {
-            plugin.getLogger().warning("No se puede recargar Spawn.yml: archivo no encontrado.");
-        } else {
-            spawnCoords = YamlConfiguration.loadConfiguration(location);
+            // If missing, try to setup again (restore)
+            if (location != null && !location.exists()) {
+                plugin.saveResource("locations.yml", false);
+            }
         }
+
+        // Reload object if it was null or just load
+        if (location == null) {
+            location = new File(plugin.getDataFolder(), "locations.yml");
+        }
+
+        if (!location.exists()) {
+            plugin.saveResource("locations.yml", false);
+        }
+
+        spawnCoords = YamlConfiguration.loadConfiguration(location);
 
         // Reload config.yml
         plugin.reloadConfig();
 
         // Reload Messages
-        String newLang = plugin.getConfig().getString("Options.Language", "EN");
-        plugin.lang = "Messages_" + newLang; // Update Main.lang field
+        String newLang = plugin.getConfig().getString("Options.Language", "EN").toLowerCase();
+        plugin.lang = "messages_" + newLang; // Update Main.lang field
 
-        // Check if language changed or just reload current
-        if (!messagesConfig.getFile().getName().equals("Messages_" + newLang + ".yml")) {
-            messagesConfig = new PluginConfig(plugin, "Messages_" + newLang);
+        // Check if language changed or file missing
+        File msgFile = new File(plugin.getDataFolder(), "messages_" + newLang + ".yml");
+        if (!msgFile.exists() || !messagesConfig.getFile().getName().equals("messages_" + newLang + ".yml")) {
+            messagesConfig = new PluginConfig(plugin, "messages_" + newLang);
         } else {
             messagesConfig.reload();
         }

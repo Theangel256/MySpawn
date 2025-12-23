@@ -1,4 +1,4 @@
-package theangel256.myspawn.events;
+package theangel256.myspawn.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,8 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.LocationManager;
-import theangel256.myspawn.util.SoundHandler;
+import theangel256.myspawn.utils.LocationManager;
+import theangel256.myspawn.utils.SoundHandler;
 
 import java.util.HashSet;
 import java.util.Set;

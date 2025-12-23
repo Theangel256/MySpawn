@@ -1,4 +1,4 @@
-package theangel256.myspawn.events;
+package theangel256.myspawn.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,14 +9,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.LocationManager;
-import theangel256.myspawn.util.SoundHandler;
-import theangel256.myspawn.util.UpdateChecker;
+import theangel256.myspawn.utils.LocationManager;
+import theangel256.myspawn.utils.SoundHandler;
+import theangel256.myspawn.utils.UpdateChecker;
 
 import java.util.List;
 
 import static theangel256.myspawn.Main.color;
-import static theangel256.myspawn.util.FireworkHandler.launchFirework;
+import static theangel256.myspawn.utils.FireworkHandler.launchFirework;
 
 public class Join implements Listener {
     private final Main plugin;

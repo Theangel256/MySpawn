@@ -1,4 +1,4 @@
-package theangel256.myspawn.util;
+package theangel256.myspawn.utils;
 
 import theangel256.myspawn.Main;
 

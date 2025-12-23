@@ -1,4 +1,4 @@
-package theangel256.myspawn.util;
+package theangel256.myspawn.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -9,12 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.CooldownManager;
-import theangel256.myspawn.util.LocationManager;
-import theangel256.myspawn.util.SoundHandler;
+import theangel256.myspawn.utils.CooldownManager;
+import theangel256.myspawn.utils.LocationManager;
+import theangel256.myspawn.utils.SoundHandler;
 
 import static theangel256.myspawn.Main.color;
-import static theangel256.myspawn.util.FireworkHandler.launchFirework;
+import static theangel256.myspawn.utils.FireworkHandler.launchFirework;
 
 public class Spawn implements CommandExecutor {
     private final Main plugin;

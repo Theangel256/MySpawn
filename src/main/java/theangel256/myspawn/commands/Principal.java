@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.LocationManager;
+import theangel256.myspawn.utils.LocationManager;
 
 import static theangel256.myspawn.Main.color;
 

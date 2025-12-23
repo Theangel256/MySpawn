@@ -8,14 +8,14 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import theangel256.myspawn.commands.*;
-import theangel256.myspawn.events.FireworkDamage;
-import theangel256.myspawn.events.Join;
-import theangel256.myspawn.events.Playervoid;
-import theangel256.myspawn.events.Quit;
-import theangel256.myspawn.events.Respawn;
-import theangel256.myspawn.util.LocationManager;
-import theangel256.myspawn.util.PluginConfig;
-import theangel256.myspawn.util.UpdateChecker;
+import theangel256.myspawn.listeners.FireworkDamage;
+import theangel256.myspawn.listeners.Join;
+import theangel256.myspawn.listeners.Playervoid;
+import theangel256.myspawn.listeners.Quit;
+import theangel256.myspawn.listeners.Respawn;
+import theangel256.myspawn.utils.LocationManager;
+import theangel256.myspawn.utils.PluginConfig;
+import theangel256.myspawn.utils.UpdateChecker;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class Main extends JavaPlugin implements Listener {
         config = getConfig();
         version = pdffile.getVersion();
         nombre = ChatColor.GRAY + "[" + ChatColor.YELLOW + getName() + ChatColor.GRAY + "]";
-        lang = String.format("Messages_%s", config.getString("Options.Language"));
+        lang = String.format("messages_%s", config.getString("Options.Language").toLowerCase());
     }
 
     public void onEnable() {

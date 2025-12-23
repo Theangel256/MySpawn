@@ -1,4 +1,4 @@
-package theangel256.myspawn.events;
+package theangel256.myspawn.listeners;
 
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;

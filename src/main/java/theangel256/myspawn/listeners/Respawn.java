@@ -1,4 +1,4 @@
-package theangel256.myspawn.events;
+package theangel256.myspawn.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import theangel256.myspawn.Main;
-import theangel256.myspawn.util.LocationManager;
+import theangel256.myspawn.utils.LocationManager;
 
 public class Respawn implements Listener {
     private final Main plugin;
