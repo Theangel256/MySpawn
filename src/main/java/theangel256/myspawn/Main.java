@@ -32,10 +32,16 @@ public class Main extends JavaPlugin implements Listener {
         config = getConfig();
         version = pdffile.getVersion();
         nombre = ChatColor.GRAY + "[" + ChatColor.YELLOW + getName() + ChatColor.GRAY + "]";
-        lang = String.format("messages_%s", config.getString("Options.Language").toLowerCase());
     }
 
     public void onEnable() {
+        // Ensure default config is saved before any config access
+        saveDefaultConfig();
+        // Reload to ensure we have the latest values
+        reloadConfig();
+        // Initialize lang after config is loaded
+        lang = String.format("messages_%s", config.getString("Options.Language", "EN").toLowerCase());
+
         RegistrarComandos();
         RegistrarEventos();
         LocationManager.getManager().setupFiles();

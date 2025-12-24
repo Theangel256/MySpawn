@@ -46,7 +46,6 @@ public class Spawn implements CommandExecutor {
                 return true;
             }
         }
-        plugin.saveDefaultConfig();
         final LocationManager spawnCoords = LocationManager.getManager();
         if (spawnCoords.getSpawnConfig().contains("Spawn.x")) {
             final World w = Bukkit.getServer().getWorld(spawnCoords.getSpawnConfig().getString("Spawn.world"));
