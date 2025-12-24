@@ -35,17 +35,14 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void onEnable() {
-        // Ensure default config is saved before any config access
         saveDefaultConfig();
-        // Reload to ensure we have the latest values
-        reloadConfig();
-        // Initialize lang after config is loaded
-        lang = String.format("messages_%s", config.getString("Options.Language", "EN").toLowerCase());
-
-        RegistrarComandos();
-        RegistrarEventos();
         LocationManager.getManager().setupFiles();
         LocationManager.getManager().reloadConfig();
+        RegistrarComandos();
+        RegistrarEventos();
+
+        lang = String.format("messages_%s", config.getString("Options.Language", "EN").toLowerCase());
+
         if (config.getBoolean("Update-check")) {
             final UpdateChecker updater = new UpdateChecker(this, 64762);
             try {
